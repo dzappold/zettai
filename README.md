@@ -1,4 +1,4 @@
-# Kotlin Project Template
+# zettai
 
 This template follows hexagonal architecture structure. 
 

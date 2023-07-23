@@ -1,6 +1,6 @@
 import org.gradle.api.initialization.resolve.RepositoriesMode.FAIL_ON_PROJECT_REPOS
 
-rootProject.name = "Kotlin Project Template"
+rootProject.name = "zettai"
 
 include("domain")
 "presentation".apply {
