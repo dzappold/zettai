@@ -26,11 +26,12 @@ dependencies {
 
     testImplementation("org.http4k:http4k-testing-chaos")
     testImplementation("org.http4k:http4k-testing-kotest")
+    testImplementation("org.http4k:http4k-testing-strikt")
     testImplementation("org.http4k:http4k-testing-approval")
     testImplementation("org.http4k:http4k-testing-servirtium")
 }
 
 application {
     applicationName = "Web"
-    mainClass.set("ServerKt")
+    mainClass.set("MainKt")
 }
