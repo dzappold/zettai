@@ -1,13 +1,4 @@
-GET {{url}}/v1/schnelltest/00816490024866
-Accept: application/json
-
-###
-GET {{url}}/v1/schnelltest/00816490024866
-Accept: application/json
-x-b3-traceid: 7c6e7b2822ca8999
-x-b3-spanid: debc013c38543157
-x-b3-sampled: 1
-
+GET {{url}}/todo/max/my
 
 ###
 GET {{health-url}}/liveness

@@ -24,6 +24,7 @@ val kotestVersion: String by project
 val kotlinVersion: String by project
 val kurePotlinVersion: String by project
 val mockkVersion: String by project
+val pesticideVersion:String by project
 
 dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:$kotlinVersion"))
@@ -46,6 +47,7 @@ dependencies {
     testImplementation(platform("io.kotest:kotest-bom:$kotestVersion"))
     testImplementation("io.kotest:kotest-assertions-core")
     testImplementation("io.kotest:kotest-assertions-json")
+    testImplementation("com.ubertob.pesticide:pesticide-core:$pesticideVersion")
 
     detektPlugins("pl.setblack:kure-potlin:$kurePotlinVersion")
 }

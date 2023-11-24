@@ -2,5 +2,10 @@ import org.http4k.server.Jetty
 import org.http4k.server.asServer
 
 fun main() {
-    Zettai().asServer(Jetty(8080)).start()
+    val items = listOf("write chapter", "insert code", "draw diagrams")
+    val toDoList = ToDoList(ListName("book"), items.map(::ToDoItem))
+    val lists = mapOf(User("uberto") to listOf(toDoList))
+    Zettai(lists).asServer(Jetty(8080)).start()
+
+    println("Server started at http://localhost:8080/todo/uberto/book")
 }
