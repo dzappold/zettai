@@ -15,10 +15,10 @@ class Zettai(private val lists: Map<User, List<ToDoList>>) : HttpHandler {
     override fun invoke(request: Request): Response = routes(request)
 
     private fun showList(request: Request): Response =
-        request.let(::extractListData)
-            .let(::fetchListContent)
-            .let(::renderHtml)
-            .let(::createResponse)
+        (::extractListData andThen
+                ::fetchListContent andThen
+                ::renderHtml andThen
+                ::createResponse)(request)
 
     fun extractListData(request: Request): Pair<User, ListName> {
         val user = request.path("user").orEmpty()
@@ -50,6 +50,8 @@ class Zettai(private val lists: Map<User, List<ToDoList>>) : HttpHandler {
 
     fun createResponse(html: HtmlPage): Response = Response(OK).body(html.raw)
 }
+
+private infix fun <A, B, C> ((A) -> B).andThen(next: (B) -> C): (A) -> C = { next(this(it)) }
 
 data class ToDoList(val listName: ListName, val items: List<ToDoItem>)
 data class ListName(val name: String)
