@@ -33,16 +33,21 @@ class SeeATodoListAT {
 
     @Test
     fun `List owners can see their lists`() {
-        val app = startTheApplication(lists)
-        app.runScenario(
-            frank.canSeeTheList("shopping", foodToBuy),
-            bob.canSeeTheList("gardening", gardenItems)
+        val apps = listOf(
+            startTheApplicationDomainOnly(lists),
+            startTheApplicationHttp(lists),
         )
+        apps.forEach { app ->
+            app.runScenario(
+                frank.canSeeTheList("shopping", foodToBuy),
+                bob.canSeeTheList("gardening", gardenItems)
+            )
+        }
     }
 
     @Test
     fun `Only owners can see their lists`() {
-        val app = startTheApplication(lists)
+        val app = startTheApplicationHttp(lists)
         app.runScenario(
             frank.cannotSeeTheList("gardening"),
             bob.cannotSeeTheList("shopping")
@@ -52,10 +57,7 @@ class SeeATodoListAT {
 
 class ApplicationForAT(val client: HttpHandler, val server: AutoCloseable) : Actions {
     override fun getToDoList(user: String, listName: String): ToDoList {
-        val client = OkHttp()
-        val request = Request(GET, "http://localhost:8081/todo/$user/$listName")
-
-        val response = client(request)
+        val response = client(Request(GET, "http://localhost:8081/todo/$user/$listName"))
         return if (response.status == OK)
             parseResponse(response.toMessage())
         else
@@ -83,8 +85,8 @@ class ApplicationForAT(val client: HttpHandler, val server: AutoCloseable) : Act
         matchResult.value.substringAfter("<td>").dropLast(1)
 }
 
-private fun startTheApplication(lists: Map<User, List<ToDoList>>): ApplicationForAT {
-    val server = Zettai(lists).asServer(Jetty(8081))
+private fun startTheApplicationHttp(lists: Map<User, List<ToDoList>>): ApplicationForAT {
+    val server = Zettai(ToDoListHub(lists)).asServer(Jetty(8081))
     server.start()
 
     val client = ClientFilters.SetBaseUriFrom(Uri.of("http://localhost:${server.port()}")).then(OkHttp())
