@@ -24,7 +24,7 @@ dependencies {
     implementation(platform("org.http4k:http4k-connect-bom:$http4kConnectVersion"))
     implementation("org.http4k:http4k-connect-storage-redis")
 
-    testImplementation("org.jsoup:jsoup:1.16.2")
+    testImplementation("org.jsoup:jsoup:1.17.1")
 
     testImplementation("org.http4k:http4k-testing-chaos")
     testImplementation("org.http4k:http4k-testing-kotest")
