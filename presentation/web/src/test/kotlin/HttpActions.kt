@@ -43,7 +43,7 @@ class HttpActions(val env: String = "local") : ZettaiActions {
         client(Request(method, "http://localhost:$zettaiPort/$path"))
 
     override fun ToDoListOwner.`starts with a list`(listName: String, items: List<String>) {
-        fetcher.assignListToUser(this.user, ToDoList(ListName(listName), items.map(::ToDoItem)))
+        fetcher.assignListToUser(this.user, ToDoList(ListName.fromTrusted(listName), items.map(::ToDoItem)))
     }
 
     override fun getToDoList(user: User, listName: ListName): ToDoList? {

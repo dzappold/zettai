@@ -39,32 +39,3 @@ class ToDoListHubShould {
     }
 
 }
-
-fun randomUser() = User(randomString(lowercase, 3, 6).capitalize())
-
-fun itemsGenerator(): Sequence<ToDoItem> = generateSequence {
-    randomItem()
-}
-
-fun randomItem() = ToDoItem(randomString(lowercase + digits, 5, 20), null)
-
-
-fun randomToDoList(): ToDoList = ToDoList(
-    randomListName(),
-    itemsGenerator().take(Random.nextInt(1, 6)).toList()
-)
-
-
-fun randomListName(): ListName = ListName(randomString(lowercase, 3, 6))
-
-const val lowercase = "abcdefghijklmnopqrstuvwxyz"
-const val digits = "0123456789"
-
-fun randomString(charSet: String, minLen: Int, maxLen: Int) =
-    StringBuilder().run {
-        val len = if (maxLen > minLen) Random.nextInt(maxLen - minLen) + minLen else minLen
-        repeat(len) {
-            append(charSet.random())
-        }
-        toString()
-    }

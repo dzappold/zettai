@@ -10,14 +10,14 @@ data class ToDoListOwner(override val name: String) : DdtActor<ZettaiActions>() 
 
     fun `cannot see #listname`(listName: String) =
         step(listName) {
-            val list = getToDoList(user, ListName(listName))
+            val list = getToDoList(user, ListName.fromTrusted(listName))
             expectThat(list).isNull()
         }
 
 
     fun `can see #listname with #itemnames`(listName: String, expectedItems: List<String>) =
         step(listName, expectedItems) {
-            val list = getToDoList(user, ListName(listName))
+            val list = getToDoList(user, ListName.fromTrusted(listName))
 
             expectThat(list)
                 .isNotNull()
@@ -28,7 +28,7 @@ data class ToDoListOwner(override val name: String) : DdtActor<ZettaiActions>() 
     fun `can add #item to #listname`(itemName: String, listName: String) =
         step(itemName, listName) {
             val item = ToDoItem(itemName)
-            addListItem(user, ListName(listName), item)
+            addListItem(user, ListName.fromTrusted(listName), item)
         }
 
     private val Assertion.Builder<ToDoList>.itemNames

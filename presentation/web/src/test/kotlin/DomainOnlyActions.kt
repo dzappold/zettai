@@ -10,7 +10,7 @@ class DomainOnlyActions : ZettaiActions {
 
     private val hub by lazy { ToDoListHub(fetcher) }
     override fun ToDoListOwner.`starts with a list`(listName: String, items: List<String>) {
-        fetcher.assignListToUser(user, ToDoList(ListName(listName), items.map(::ToDoItem)))
+        fetcher.assignListToUser(user, ToDoList(ListName.fromTrusted(listName), items.map(::ToDoItem)))
     }
 
     override fun getToDoList(user: User, listName: ListName): ToDoList? =

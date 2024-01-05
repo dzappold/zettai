@@ -27,7 +27,7 @@ class Zettai(val hub: ZettaiHub) : HttpHandler {
 
     private fun addNewItem(request: Request): Response {
         val user = request.path("user")?.let(::User) ?: return Response(BAD_REQUEST)
-        val listName = request.path("list")?.let(::ListName) ?: return Response(BAD_REQUEST)
+        val listName = request.path("list")?.let(ListName::fromUntrusted) ?: return Response(BAD_REQUEST)
         val item = request.form("itemname")?.let(::ToDoItem) ?: return Response(BAD_REQUEST)
         return hub.addItemToList(user, listName, item)
             ?.let { Response(SEE_OTHER).header("Location", "/todo/${user.name}/${listName.name}") }
@@ -45,7 +45,7 @@ class Zettai(val hub: ZettaiHub) : HttpHandler {
     fun extractListData(request: Request): Pair<User, ListName> {
         val user = request.path("user").orEmpty()
         val list = request.path("list").orEmpty()
-        return User(user) to ListName(list)
+        return User(user) to ListName.fromTrusted(list)
     }
 
     fun fetchListContent(listId: Pair<User, ListName>): ToDoList =
