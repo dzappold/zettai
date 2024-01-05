@@ -21,12 +21,23 @@ class Zettai(val hub: ZettaiHub) : HttpHandler {
         "/todo/{user}/{list}" bind GET to ::getToDoList,
         "/todo/{user}/{list}" bind POST to ::addNewItem,
         "/todo/{user}" bind GET to ::getAllLists,
+        "/todo/{user}" bind POST to ::createNewList
     ).withFilter(ServerFilters.CatchAll { e ->
         when (e) {
             is IllegalStateException -> Response(NOT_FOUND)
             else -> Response(INTERNAL_SERVER_ERROR)
         }
     })
+
+    private fun createNewList(request: Request): Response {
+        val user = request.extractUser()
+        val listName = request.extractListNameFromForm("listname")
+
+        return listName
+            ?.let { hub.createToDoList(user, it) }
+            ?.let { Response(SEE_OTHER).header("Location", "/todo/${user.name}") }
+            ?: Response(BAD_REQUEST)
+    }
 
     private fun getAllLists(request: Request): Response {
         val user = request.extractUser()
@@ -162,6 +173,9 @@ class Zettai(val hub: ZettaiHub) : HttpHandler {
 
     fun createResponse(html: HtmlPage): Response = Response(OK).body(html.raw)
 }
+
+private fun Request.extractListNameFromForm(formName: String): ListName? =
+    form(formName)?.let(ListName::fromUntrusted)
 
 private fun Request.extractUser(): User = path("user").orEmpty().let(::User)
 

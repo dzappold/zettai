@@ -1,8 +1,11 @@
 import com.ubertob.pesticide.core.DDT
+import java.time.LocalDate
+import java.time.Month
 
-class UserListsPageDDT : ZettaiDDT(allActions()) {
+class SeeAllTheToDoListsDDT : ZettaiDDT(allActions()) {
     val carol by NamedActor(::ToDoListOwner)
     val emma by NamedActor(::ToDoListOwner)
+    val dylan by NamedActor(::ToDoListOwner)
 
     @DDT
     fun `new users have no lists`() = ddtScenario {
@@ -20,6 +23,17 @@ class UserListsPageDDT : ZettaiDDT(allActions()) {
             carol.`can see the lists #listNames`(expectedLists.keys),
             emma.`cannot see any list`()
         )
+    }
+
+    @DDT
+    fun `users can create new lists`() = ddtScenario {
+        play(
+            dylan.`cannot see any list`(),
+            dylan.`can create as new list called #listname`("gardening"),
+            dylan.`can create as new list called #listname`("music"),
+            dylan.`can see the lists #listNames`(setOf("gardening", "music"))
+        )
+            .wip(LocalDate.of(2024, Month.JANUARY, 31))
     }
 
     private fun generateSomeToDoLists(): Map<String, List<String>> {

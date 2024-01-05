@@ -56,6 +56,15 @@ class HttpActions(val env: String = "local") : ZettaiActions {
         return names.map(ListName::fromTrusted)
     }
 
+    override fun createList(user: User, listName: ListName) {
+        val response = submitToZettai(allUserListsUrl(user), newListForm(listName))
+        expectThat(response.status).isEqualTo(SEE_OTHER)
+    }
+
+    private fun newListForm(listName: ListName): Form {
+        return listOf("listname" to listName.name)
+    }
+
     private fun extractListNamesFromPage(html: HtmlPage): List<String> =
         html.parse()
             .select("tr")

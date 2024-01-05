@@ -10,6 +10,10 @@ class ToDoListHub(private val fetcher: ToDoListUpdatableFetcher) : ZettaiHub {
 
     override fun getLists(user: User): List<ListName>? =
         fetcher.getAll(user)
+
+    override fun createToDoList(user: User, listName: ListName) {
+        TODO("Not yet implemented")
+    }
 }
 
 fun ToDoList.replaceItem(item: ToDoItem) =

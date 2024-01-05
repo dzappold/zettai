@@ -17,6 +17,10 @@ class DomainOnlyActions : ZettaiActions {
         return fetcher.getAll(user) ?: emptyList()
     }
 
+    override fun createList(user: User, listName: ListName) {
+        TODO("Not yet implemented")
+    }
+
     override fun getToDoList(user: User, listName: ListName): ToDoList? =
         hub.getList(user, listName)
 

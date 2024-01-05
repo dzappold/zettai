@@ -49,6 +49,11 @@ data class ToDoListOwner(override val name: String) : DdtActor<ZettaiActions>() 
 
         }
 
+    fun `can create as new list called #listname`(listName: String) =
+        step(listName) {
+            createList(user, ListName.fromUntrusted(listName)!!)
+        }
+
     private val Assertion.Builder<ToDoList>.itemNames
         get() = get { items.map(ToDoItem::description) }
 }
