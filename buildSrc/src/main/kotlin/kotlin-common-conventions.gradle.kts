@@ -5,7 +5,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 
 plugins {
     java
-//    `java-test-fixtures`
+    `java-test-fixtures`
     jacoco
 
     kotlin("jvm")

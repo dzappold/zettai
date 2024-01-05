@@ -8,6 +8,7 @@ val http4kVersion: String by project
 
 dependencies {
     implementation(project(":infrastructure:example-adapter"))
+    implementation(project(":domain"))
 
     implementation(platform("org.http4k:http4k-bom:$http4kVersion"))
 
@@ -31,6 +32,7 @@ dependencies {
     testImplementation("org.http4k:http4k-testing-strikt")
     testImplementation("org.http4k:http4k-testing-approval")
     testImplementation("org.http4k:http4k-testing-servirtium")
+    testImplementation(testFixtures(project(":domain")))
 }
 
 application {

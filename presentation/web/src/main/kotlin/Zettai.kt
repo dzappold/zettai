@@ -13,7 +13,6 @@ import org.http4k.filter.ServerFilters
 import org.http4k.routing.bind
 import org.http4k.routing.path
 import org.http4k.routing.routes
-import java.time.LocalDate
 
 class Zettai(val hub: ZettaiHub) : HttpHandler {
     val routes = routes(
@@ -75,22 +74,4 @@ class Zettai(val hub: ZettaiHub) : HttpHandler {
 
 private infix fun <A, B, C> ((A) -> B).andThen(next: (B) -> C): (A) -> C = { next(this(it)) }
 
-data class ToDoList(val listName: ListName, val items: List<ToDoItem>)
-data class ListName(val name: String)
-data class User(val name: String)
-data class ToDoItem(val description: String, val dueDate: LocalDate? = null)
-enum class ToDoStatus { Todo, InProgress, Done, Blocked }
 data class HtmlPage(val raw: String)
-
-typealias ToDoListStore = MutableMap<User, MutableMap<ListName, ToDoList>>
-
-data class ToDoListFetcherFromMap(private val store: ToDoListStore) : ToDoListFetcher, ToDoListUpdatableFetcher {
-    override fun invoke(user: User, listName: ListName): ToDoList? =
-        store[user]?.get(listName)
-
-    override fun assignListToUser(user: User, list: ToDoList): ToDoList? =
-        store.compute(user) { _, value ->
-            val listMap = value ?: mutableMapOf()
-            listMap.apply { put(list.listName, list) }
-        }?.let { list }
-}

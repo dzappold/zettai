@@ -1,8 +1,6 @@
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
-import strikt.api.expect
-import strikt.api.expectThat
-import strikt.assertions.isEqualTo
-import strikt.assertions.isNull
 import kotlin.random.Random
 
 class ToDoListHubShould {
@@ -19,7 +17,7 @@ class ToDoListHubShould {
             fetcher.assignListToUser(user, list)
 
             val myList = hub.getList(user, list.listName)
-            expectThat(myList).isEqualTo(list)
+            myList shouldBe list
         }
     }
 
@@ -35,14 +33,8 @@ class ToDoListHubShould {
             fetcher.assignListToUser(firstUser, firstList)
             fetcher.assignListToUser(secondUser, secondList)
 
-            expect {
-                that(hub.getList(firstUser, secondList.listName))
-                    .describedAs("$firstUser - ${secondList.listName}")
-                    .isNull()
-                that(hub.getList(secondUser, firstList.listName))
-                    .describedAs("$secondUser - ${firstList.listName}")
-                    .isNull()
-            }
+            hub.getList(firstUser, secondList.listName).shouldBeNull()
+            hub.getList(secondUser, firstList.listName).shouldBeNull()
         }
     }
 
@@ -59,7 +51,7 @@ fun randomItem() = ToDoItem(randomString(lowercase + digits, 5, 20), null)
 
 fun randomToDoList(): ToDoList = ToDoList(
     randomListName(),
-    itemsGenerator().take(Random.nextInt(1,6)).toList()
+    itemsGenerator().take(Random.nextInt(1, 6)).toList()
 )
 
 
