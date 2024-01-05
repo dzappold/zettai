@@ -4,10 +4,13 @@ class ToDoListHub(private val fetcher: ToDoListUpdatableFetcher) : ZettaiHub {
 
     override fun addItemToList(user: User, listName: ListName, item: ToDoItem): ToDoList? =
         fetcher(user, listName)?.run {
-            val newList = copy(items = items.filterNot { it.description == item.description } + item)
+            val newList = copy(items = replaceItem(item))
             fetcher.assignListToUser(user, newList)
         }
 }
+
+fun ToDoList.replaceItem(item: ToDoItem) =
+    items.filterNot { it.description == item.description } + item
 
 typealias ToDoListFetcher = (User, ListName) -> ToDoList?
 typealias ToDoListMap = Map<User, Map<ListName, ToDoList>>
