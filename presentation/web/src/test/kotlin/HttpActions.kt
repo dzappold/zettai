@@ -3,9 +3,11 @@ import com.ubertob.pesticide.core.Http
 import com.ubertob.pesticide.core.Ready
 import org.http4k.client.OkHttp
 import org.http4k.core.Method
+import org.http4k.core.Method.GET
 import org.http4k.core.Request
 import org.http4k.core.Response
-import org.http4k.core.Status
+import org.http4k.core.Status.Companion.NOT_FOUND
+import org.http4k.core.Status.Companion.OK
 import org.http4k.server.Jetty
 import org.http4k.server.asServer
 import org.jsoup.Jsoup
@@ -40,19 +42,18 @@ class HttpActions(val env: String = "local") : ZettaiActions {
     }
 
     override fun getToDoList(user: User, listName: ListName): ToDoList? {
-        val response = callZettai(Method.GET, todoListUrl(user, listName))
+        val response = callZettai(GET, todoListUrl(user, listName))
 
-        if (response.status == Status.NOT_FOUND)
+        if (response.status == NOT_FOUND)
             return null
 
-        expectThat(response.status).isEqualTo(Status.OK)
+        expectThat(response.status).isEqualTo(OK)
 
         val html = HtmlPage(response.bodyString())
 
         val items = extractItemsFromPage(html)
 
         return ToDoList(listName, items)
-
     }
 
     private fun HtmlPage.parse(): Document = Jsoup.parse(raw)
