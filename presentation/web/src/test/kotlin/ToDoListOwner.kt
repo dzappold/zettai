@@ -25,6 +25,12 @@ data class ToDoListOwner(override val name: String) : DdtActor<ZettaiActions>() 
                 .containsExactlyInAnyOrder(expectedItems)
         }
 
+    fun `can add #item to #listname`(itemName: String, listName: String) =
+        step(itemName, listName) {
+            val item = ToDoItem(itemName)
+            addListItem(user, ListName(listName), item)
+        }
+
     private val Assertion.Builder<ToDoList>.itemNames
         get() = get { items.map(ToDoItem::description) }
 }

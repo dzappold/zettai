@@ -4,10 +4,14 @@ import com.ubertob.pesticide.core.Ready
 import org.http4k.client.OkHttp
 import org.http4k.core.Method
 import org.http4k.core.Method.GET
+import org.http4k.core.Method.POST
 import org.http4k.core.Request
 import org.http4k.core.Response
 import org.http4k.core.Status.Companion.NOT_FOUND
 import org.http4k.core.Status.Companion.OK
+import org.http4k.core.Status.Companion.SEE_OTHER
+import org.http4k.core.body.Form
+import org.http4k.core.body.toBody
 import org.http4k.server.Jetty
 import org.http4k.server.asServer
 import org.jsoup.Jsoup
@@ -18,8 +22,9 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class HttpActions(val env: String = "local") : ZettaiActions {
-    private val lists: MutableMap<User, List<ToDoList>> = mutableMapOf()
-    private val hub = ToDoListHub(lists)
+    fun emptyStore(): ToDoListStore = mutableMapOf()
+    val fetcher = ToDoListFetcherFromMap(emptyStore())
+    private val hub = ToDoListHub(fetcher)
     override val protocol = Http(env)
 
     val zettaiPort = 8000
@@ -38,7 +43,7 @@ class HttpActions(val env: String = "local") : ZettaiActions {
         client(Request(method, "http://localhost:$zettaiPort/$path"))
 
     override fun ToDoListOwner.`starts with a list`(listName: String, items: List<String>) {
-        lists += (this.user to listOf(ToDoList(ListName(listName), items.map(::ToDoItem))))
+        fetcher.assignListToUser(this.user, ToDoList(ListName(listName), items.map(::ToDoItem)))
     }
 
     override fun getToDoList(user: User, listName: ListName): ToDoList? {
@@ -55,6 +60,17 @@ class HttpActions(val env: String = "local") : ZettaiActions {
 
         return ToDoList(listName, items)
     }
+
+    override fun addListItem(user: User, listName: ListName, item: ToDoItem) {
+        val response = submitToZettai(
+            todoListUrl(user, listName),
+            listOf("itemname" to item.description, "itemdue" to item.dueDate?.toString())
+        )
+        expectThat(response.status).isEqualTo(SEE_OTHER)
+    }
+
+    private fun submitToZettai(path: String, webForm: Form): Response =
+        client(Request(POST, "http://localhost:$zettaiPort/$path").body(webForm.toBody()))
 
     private fun HtmlPage.parse(): Document = Jsoup.parse(raw)
 
