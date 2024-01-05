@@ -24,7 +24,7 @@ val kotestVersion: String by project
 val kotlinVersion: String by project
 val kurePotlinVersion: String by project
 val mockkVersion: String by project
-val pesticideVersion:String by project
+val pesticideVersion: String by project
 
 dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:$kotlinVersion"))
@@ -58,6 +58,7 @@ tasks {
         testLogging {
             events(PASSED, SKIPPED, FAILED)
         }
+        outputs.upToDateWhen { false }
         finalizedBy(jacocoTestReport) // report is always generated after tests run
     }
 

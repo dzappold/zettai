@@ -44,8 +44,24 @@ class HttpActions(val env: String = "local") : ZettaiActions {
         client(Request(method, "http://localhost:$zettaiPort/$path"))
 
     override fun ToDoListOwner.`starts with a list`(listName: String, items: List<String>) {
-        fetcher.assignListToUser(this.user, ToDoList(ListName.fromTrusted(listName), items.map(::ToDoItem)))
+        fetcher.assignListToUser(user, ToDoList(ListName.fromTrusted(listName), items.map(::ToDoItem)))
     }
+
+    override fun allUserLists(user: User): List<ListName> {
+        val response = callZettai(GET, allUserListsUrl(user))
+        expectThat(response.status).isEqualTo(OK)
+
+        val html = HtmlPage(response.bodyString())
+        val names = extractListNamesFromPage(html)
+        return names.map(ListName::fromTrusted)
+    }
+
+    private fun extractListNamesFromPage(html: HtmlPage): List<String> =
+        html.parse()
+            .select("tr")
+            .mapNotNull { it.select("td").firstOrNull()?.text() }
+
+    private fun allUserListsUrl(user: User): String = "todo/${user.name}"
 
     override fun getToDoList(user: User, listName: ListName): ToDoList? {
         val response = callZettai(GET, todoListUrl(user, listName))

@@ -13,6 +13,10 @@ class DomainOnlyActions : ZettaiActions {
         fetcher.assignListToUser(user, ToDoList(ListName.fromTrusted(listName), items.map(::ToDoItem)))
     }
 
+    override fun allUserLists(user: User): List<ListName> {
+        return fetcher.getAll(user) ?: emptyList()
+    }
+
     override fun getToDoList(user: User, listName: ListName): ToDoList? =
         hub.getList(user, listName)
 

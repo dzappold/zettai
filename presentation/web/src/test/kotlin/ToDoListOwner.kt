@@ -1,9 +1,12 @@
 import com.ubertob.pesticide.core.DdtActor
 import strikt.api.Assertion
 import strikt.api.expectThat
+import strikt.assertions.containsExactly
 import strikt.assertions.containsExactlyInAnyOrder
+import strikt.assertions.isEmpty
 import strikt.assertions.isNotNull
 import strikt.assertions.isNull
+import strikt.assertions.map
 
 data class ToDoListOwner(override val name: String) : DdtActor<ZettaiActions>() {
     val user = User(name)
@@ -29,6 +32,21 @@ data class ToDoListOwner(override val name: String) : DdtActor<ZettaiActions>() 
         step(itemName, listName) {
             val item = ToDoItem(itemName)
             addListItem(user, ListName.fromTrusted(listName), item)
+        }
+
+    fun `cannot see any list`() =
+        step {
+            val lists = allUserLists(user)
+            expectThat(lists).isEmpty()
+        }
+
+    fun `can see the lists #listNames`(expectedLists: Set<String>) =
+        step(expectedLists) {
+            val lists = allUserLists(user)
+            expectThat(lists)
+                .map(ListName::name)
+                .containsExactly(expectedLists)
+
         }
 
     private val Assertion.Builder<ToDoList>.itemNames
