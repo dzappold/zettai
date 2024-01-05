@@ -16,10 +16,11 @@ import org.http4k.server.Jetty
 import org.http4k.server.asServer
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE
 
 class HttpActions(val env: String = "local") : ZettaiActions {
     fun emptyStore(): ToDoListStore = mutableMapOf()
@@ -77,23 +78,23 @@ class HttpActions(val env: String = "local") : ZettaiActions {
     private fun extractItemsFromPage(html: HtmlPage): List<ToDoItem> =
         html.parse()
             .select("tr")
-//            .filter { it.select("td").size == 3 }
+            .filter { element: Element -> element.select("td").size == 3 }
             .map {
-//                Triple(
-                it.select("td")[0].text().orEmpty()//,
-//                    it.select("td")[1].text().toIsoLocalDate(),
-//                    it.select("td")[2].text().orEmpty().toStatus()
-//                )
+                Triple(
+                    it.select("td")[0].text().orEmpty(),
+                    it.select("td")[1].text().toIsoLocalDate(),
+                    it.select("td")[2].text().orEmpty().toStatus()
+                )
             }
-            .map { name ->
-                ToDoItem(name)//, date, status)
+            .map { (name, dueDate, status) ->
+                ToDoItem(name, dueDate, status)
             }
 
     private fun todoListUrl(user: User, listName: ListName) =
         "todo/${user.name}/${listName.name}"
 
     fun String?.toIsoLocalDate(): LocalDate? =
-        unlessNullOrEmpty { LocalDate.parse(this, DateTimeFormatter.ISO_LOCAL_DATE) }
+        unlessNullOrEmpty { LocalDate.parse(this, ISO_LOCAL_DATE) }
 
     fun String.toStatus(): ToDoStatus = ToDoStatus.valueOf(this)
     fun <U : Any> CharSequence?.unlessNullOrEmpty(f: (CharSequence) -> U): U? =
