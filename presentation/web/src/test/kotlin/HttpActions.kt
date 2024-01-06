@@ -18,6 +18,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import strikt.api.expectThat
+import strikt.assertions.hasSize
 import strikt.assertions.isEqualTo
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE
@@ -49,7 +50,10 @@ class HttpActions(val env: String = "local") : ZettaiActions {
         client(Request(method, "http://localhost:$zettaiPort/$path"))
 
     override fun ToDoListOwner.`starts with a list`(listName: String, items: List<String>) {
-        fetcher.assignListToUser(user, ToDoList(ListName.fromTrusted(listName), items.map(::ToDoItem)))
+        val name = ListName.fromTrusted(listName)
+        createList(user, name)
+        val created = items.mapNotNull { addListItem(user, name, ToDoItem(it)) }
+        expectThat(created).hasSize(items.size)
     }
 
     override fun allUserLists(user: User): List<ListName> {

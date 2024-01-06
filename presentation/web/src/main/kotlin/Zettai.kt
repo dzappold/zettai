@@ -105,9 +105,11 @@ class Zettai(val hub: ZettaiHub) : HttpHandler {
         val user = request.path("user")?.let(::User) ?: return Response(BAD_REQUEST)
         val listName = request.path("list")?.let(ListName::fromUntrusted) ?: return Response(BAD_REQUEST)
         val item = request.form("itemname")?.let(::ToDoItem) ?: return Response(BAD_REQUEST)
-        return hub.addItemToList(user, listName, item)
+
+        return AddToDoItem(user, listName, item)
+            .let(hub::handle)
             ?.let { Response(SEE_OTHER).header("Location", "/todo/${user.name}/${listName.name}") }
-            ?: Response(NOT_FOUND)
+            ?: Response(BAD_REQUEST)
     }
 
     override fun invoke(request: Request): Response = routes(request)

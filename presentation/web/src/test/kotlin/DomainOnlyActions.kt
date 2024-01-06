@@ -1,5 +1,7 @@
 import com.ubertob.pesticide.core.DomainOnly
 import com.ubertob.pesticide.core.Ready
+import strikt.api.expectThat
+import strikt.assertions.hasSize
 
 class DomainOnlyActions : ZettaiActions {
     override val protocol = DomainOnly
@@ -14,7 +16,15 @@ class DomainOnlyActions : ZettaiActions {
 
     private val hub by lazy { ToDoListHub(fetcher, commandHandler, eventStore) }
     override fun ToDoListOwner.`starts with a list`(listName: String, items: List<String>) {
-        fetcher.assignListToUser(user, ToDoList(ListName.fromTrusted(listName), items.map(::ToDoItem)))
+        val name = ListName.fromTrusted(listName)
+
+        val command = hub.handle(CreateToDoList(user, name))
+        command ?: error("failed to create list $listName")
+
+        val created = items.mapNotNull { description ->
+            hub.handle(AddToDoItem(user, name, ToDoItem(description)))
+        }
+        expectThat(created).hasSize(items.size)
     }
 
     override fun allUserLists(user: User): List<ListName> {
@@ -29,6 +39,6 @@ class DomainOnlyActions : ZettaiActions {
         hub.getList(user, listName)
 
     override fun addListItem(user: User, listName: ListName, item: ToDoItem) {
-        hub.addItemToList(user, listName, item)
+        hub.handle(AddToDoItem(user, listName, item))
     }
 }

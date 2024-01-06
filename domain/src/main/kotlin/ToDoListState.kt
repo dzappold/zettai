@@ -20,13 +20,13 @@ data class ActiveToDoList internal constructor(
     val id: EntityId,
     val user: User,
     val name: ListName,
-    val itemsList: List<ToDoItem>
+    val items: List<ToDoItem>
 ) : ToDoListState() {
     override fun combine(event: ToDoListEvent): ToDoListState =
         when (event) {
-            is ItemAdded -> copy(itemsList = itemsList + event.item)
-            is ItemRemoved -> copy(itemsList = itemsList - event.item)
-            is ItemModified -> copy(itemsList = itemsList - event.prevItem + event.item)
+            is ItemAdded -> copy(items = items + event.item)
+            is ItemRemoved -> copy(items = items - event.item)
+            is ItemModified -> copy(items = items - event.prevItem + event.item)
             is ListPutOnHold -> onHold(event.reason)
             is ListClosed -> close(event.closedOn)
             else -> this // ignore other events
@@ -56,7 +56,7 @@ fun InitialState.create(id: ToDoListId, owner: User, name: ListName, items: List
     ActiveToDoList(id, owner, name, items)
 
 fun ActiveToDoList.onHold(reason: String) =
-    OnHoldToDoList(id, user, name, itemsList, reason)
+    OnHoldToDoList(id, user, name, items, reason)
 
 fun OnHoldToDoList.release() =
     ActiveToDoList(id, user, name, itemList)

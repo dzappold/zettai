@@ -7,6 +7,7 @@ class ToDoListCommandHandler(
     override fun invoke(command: ToDoListCommand): List<ToDoListEvent>? =
         when (command) {
             is CreateToDoList -> command.execute()
+            is AddToDoItem -> command.execute()
             else -> null
         }
 
@@ -19,6 +20,25 @@ class ToDoListCommandHandler(
                         ListCreated(id, user, name).toList()
                     }
                     else -> null// command fail
+                }
+            }
+
+    private fun AddToDoItem.execute(): List<ToDoListEvent>? =
+        entityRetriever.retrieveByName(user, name)
+            ?.let { listState ->
+                when (listState) {
+                    is ActiveToDoList -> {
+                        if (listState.items.any { it.description == item.description })
+                            null // cannot have 2 items with same name
+                        else {
+                            readModel.addItemToList(user, listState.name, item)
+                            ItemAdded(listState.id, item).toList()
+                        }
+                    }
+
+                    InitialState,
+                    is OnHoldToDoList,
+                    is ClosedToDoList -> null // command fail
                 }
             }
 }
