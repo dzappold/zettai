@@ -1,3 +1,18 @@
+package DDT.actions
+
+import AddToDoItem
+import CreateToDoList
+import ListName
+import ToDoItem
+import ToDoList
+import ToDoListCommandHandler
+import ToDoListEventStore
+import ToDoListEventStreamerInMemory
+import ToDoListFetcherFromMap
+import ToDoListHub
+import DDT.actors.ToDoListOwner
+import ToDoListStore
+import User
 import com.ubertob.pesticide.core.DomainOnly
 import com.ubertob.pesticide.core.Ready
 import strikt.api.expectThat
@@ -7,7 +22,7 @@ class DomainOnlyActions : ZettaiActions {
     override val protocol = DomainOnly
     override fun prepare() = Ready
 
-    fun emptyStore(): ToDoListStore = mutableMapOf()
+    private fun emptyStore(): ToDoListStore = mutableMapOf()
     private val fetcher = ToDoListFetcherFromMap(emptyStore())
 
     private val eventStreamer = ToDoListEventStreamerInMemory()
@@ -15,6 +30,7 @@ class DomainOnlyActions : ZettaiActions {
     private val commandHandler = ToDoListCommandHandler(eventStore, fetcher)
 
     private val hub by lazy { ToDoListHub(fetcher, commandHandler, eventStore) }
+
     override fun ToDoListOwner.`starts with a list`(listName: String, items: List<String>) {
         val name = ListName.fromTrusted(listName)
 

@@ -8,13 +8,22 @@ import org.http4k.core.Status.Companion.INTERNAL_SERVER_ERROR
 import org.http4k.core.Status.Companion.NOT_FOUND
 import org.http4k.core.Status.Companion.OK
 import org.http4k.core.Status.Companion.SEE_OTHER
+import org.http4k.core.Uri
 import org.http4k.core.body.form
+import org.http4k.core.then
+import org.http4k.core.with
 import org.http4k.filter.ServerFilters
+import org.http4k.lens.Header
+import org.http4k.lens.Path
+import org.http4k.lens.nonBlankString
 import org.http4k.routing.bind
-import org.http4k.routing.path
 import org.http4k.routing.routes
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+
+val userLens = Path.nonBlankString().map(::User, User::name).of("user")
+val listNameLens =
+    Path.nonBlankString().map({ ListName.fromUntrusted(it) ?: error("invalid list name") }, ListName::name).of("list")
 
 class Zettai(val hub: ZettaiHub) : HttpHandler {
     val routes = routes(
@@ -27,21 +36,21 @@ class Zettai(val hub: ZettaiHub) : HttpHandler {
             is IllegalStateException -> Response(NOT_FOUND)
             else -> Response(INTERNAL_SERVER_ERROR)
         }
-    })
+    }.then(ServerFilters.CatchLensFailure()))
 
     private fun createNewList(request: Request): Response {
-        val user = request.extractUser()
+        val user = userLens(request)
         val listName = request.extractListNameFromForm("listname")
 
         return listName
             ?.let { CreateToDoList(user, it) }
             ?.let(hub::handle)
-            ?.let { Response(SEE_OTHER).header("Location", "/todo/${user.name}") }
+            ?.let { Response(SEE_OTHER).with(Header.LOCATION of Uri.of("/todo/${user.name}")) }
             ?: Response(BAD_REQUEST)
     }
 
     private fun getAllLists(request: Request): Response {
-        val user = request.extractUser()
+        val user = userLens(request)
 
         return hub.getLists(user)
             ?.let { renderListsPage(user, it) }
@@ -102,13 +111,13 @@ class Zettai(val hub: ZettaiHub) : HttpHandler {
             </tr>""".trimIndent()
 
     private fun addNewItem(request: Request): Response {
-        val user = request.path("user")?.let(::User) ?: return Response(BAD_REQUEST)
-        val listName = request.path("list")?.let(ListName::fromUntrusted) ?: return Response(BAD_REQUEST)
+        val user = userLens(request)
+        val listName = listNameLens(request)
         val item = request.form("itemname")?.let(::ToDoItem) ?: return Response(BAD_REQUEST)
 
         return AddToDoItem(user, listName, item)
             .let(hub::handle)
-            ?.let { Response(SEE_OTHER).header("Location", "/todo/${user.name}/${listName.name}") }
+            ?.let { Response(SEE_OTHER).with(Header.LOCATION of Uri.of("/todo/${user.name}/${listName.name}")) }
             ?: Response(BAD_REQUEST)
     }
 
@@ -121,9 +130,7 @@ class Zettai(val hub: ZettaiHub) : HttpHandler {
                 ::createResponse)(request)
 
     fun extractListData(request: Request): Pair<User, ListName> {
-        val user = request.path("user").orEmpty()
-        val list = request.path("list").orEmpty()
-        return User(user) to ListName.fromTrusted(list)
+        return userLens(request) to listNameLens(request)
     }
 
     fun fetchListContent(listId: Pair<User, ListName>): ToDoList =
@@ -179,8 +186,6 @@ class Zettai(val hub: ZettaiHub) : HttpHandler {
 
 private fun Request.extractListNameFromForm(formName: String): ListName? =
     form(formName)?.let(ListName::fromUntrusted)
-
-private fun Request.extractUser(): User = path("user").orEmpty().let(::User)
 
 private infix fun <A, B, C> ((A) -> B).andThen(next: (B) -> C): (A) -> C = { next(this(it)) }
 

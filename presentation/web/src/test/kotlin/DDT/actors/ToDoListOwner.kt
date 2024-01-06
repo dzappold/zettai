@@ -1,3 +1,10 @@
+package DDT.actors
+
+import DDT.actions.ZettaiActions
+import ListName
+import ToDoItem
+import ToDoList
+import User
 import com.ubertob.pesticide.core.DdtActor
 import strikt.api.Assertion
 import strikt.api.expectThat
@@ -16,7 +23,6 @@ data class ToDoListOwner(override val name: String) : DdtActor<ZettaiActions>() 
             val list = getToDoList(user, ListName.fromTrusted(listName))
             expectThat(list).isNull()
         }
-
 
     fun `can see #listname with #itemnames`(listName: String, expectedItems: List<String>) =
         step(listName, expectedItems) {

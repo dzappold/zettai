@@ -1,3 +1,8 @@
+package DDT
+
+import DDT.actions.ZettaiDDT
+import DDT.actions.allActions
+import DDT.actors.ToDoListOwner
 import com.ubertob.pesticide.core.DDT
 
 class SeeATodoListDDT : ZettaiDDT(allActions()) {

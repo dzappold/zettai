@@ -1,3 +1,20 @@
+package DDT.actions
+
+import HtmlPage
+import ListName
+import ToDoItem
+import ToDoList
+import ToDoListCommandHandler
+import ToDoListEventStore
+import ToDoListEventStreamer
+import ToDoListEventStreamerInMemory
+import ToDoListFetcherFromMap
+import ToDoListHub
+import DDT.actors.ToDoListOwner
+import ToDoListStore
+import ToDoStatus
+import User
+import Zettai
 import com.ubertob.pesticide.core.DomainSetUp
 import com.ubertob.pesticide.core.Http
 import com.ubertob.pesticide.core.Ready
@@ -23,9 +40,9 @@ import strikt.assertions.isEqualTo
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE
 
-class HttpActions(val env: String = "local") : ZettaiActions {
-    fun emptyStore(): ToDoListStore = mutableMapOf()
-    val fetcher = ToDoListFetcherFromMap(emptyStore())
+class HttpActions(env: String = "local") : ZettaiActions {
+    private fun emptyStore(): ToDoListStore = mutableMapOf()
+    private val fetcher = ToDoListFetcherFromMap(emptyStore())
 
     private val eventStreamer: ToDoListEventStreamer = ToDoListEventStreamerInMemory()
     private val eventStore = ToDoListEventStore(eventStreamer)
@@ -34,9 +51,9 @@ class HttpActions(val env: String = "local") : ZettaiActions {
     private val hub = ToDoListHub(fetcher, commandHandler, eventStore)
     override val protocol = Http(env)
 
-    val zettaiPort = 8000
-    val server = Zettai(hub).asServer(Jetty(zettaiPort))
-    val client = OkHttp()
+    private val zettaiPort = 8000
+    private val server = Zettai(hub).asServer(Jetty(zettaiPort))
+    private val client = OkHttp()
 
     override fun prepare(): DomainSetUp {
         server.start()
@@ -51,7 +68,9 @@ class HttpActions(val env: String = "local") : ZettaiActions {
 
     override fun ToDoListOwner.`starts with a list`(listName: String, items: List<String>) {
         val name = ListName.fromTrusted(listName)
+
         createList(user, name)
+
         val created = items.mapNotNull { addListItem(user, name, ToDoItem(it)) }
         expectThat(created).hasSize(items.size)
     }
@@ -62,7 +81,7 @@ class HttpActions(val env: String = "local") : ZettaiActions {
 
         val html = HtmlPage(response.bodyString())
         val names = extractListNamesFromPage(html)
-        return names.map(ListName::fromTrusted)
+        return names.map(ListName.Companion::fromTrusted)
     }
 
     override fun createList(user: User, listName: ListName) {
