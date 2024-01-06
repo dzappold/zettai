@@ -1,6 +1,6 @@
 package DDT.actions
 
-import HtmlPage
+import ui.HtmlPage
 import ListName
 import ToDoItem
 import ToDoList
