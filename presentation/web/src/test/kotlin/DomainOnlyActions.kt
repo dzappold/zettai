@@ -10,7 +10,7 @@ class DomainOnlyActions : ZettaiActions {
 
     private val eventStreamer = ToDoListEventStreamerInMemory()
     private val eventStore = ToDoListEventStore(eventStreamer)
-    private val commandHandler = ToDoListCommandHandler(eventStore)
+    private val commandHandler = ToDoListCommandHandler(eventStore, fetcher)
 
     private val hub by lazy { ToDoListHub(fetcher, commandHandler, eventStore) }
     override fun ToDoListOwner.`starts with a list`(listName: String, items: List<String>) {
@@ -22,7 +22,7 @@ class DomainOnlyActions : ZettaiActions {
     }
 
     override fun createList(user: User, listName: ListName) {
-        TODO("Not yet implemented")
+        hub.handle(CreateToDoList(user, listName))
     }
 
     override fun getToDoList(user: User, listName: ListName): ToDoList? =

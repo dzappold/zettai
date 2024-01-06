@@ -4,12 +4,15 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 import org.junit.jupiter.api.Test
 
 class ToDoListCommandShould {
-    val streamer = ToDoListEventStreamerInMemory()
-    val eventStore = ToDoListEventStore(streamer)
+    private val store: ToDoListStore = mutableMapOf()
+    private val readModel: ToDoListUpdatableFetcher = ToDoListFetcherFromMap(store)
 
-    val handler = ToDoListCommandHandler(eventStore)
+    private val streamer = ToDoListEventStreamerInMemory()
+    private val eventStore = ToDoListEventStore(streamer)
 
-    fun handle(cmd: ToDoListCommand): List<ToDoListEvent>? =
+    private val handler = ToDoListCommandHandler(eventStore, readModel)
+
+    private fun handle(cmd: ToDoListCommand): List<ToDoListEvent>? =
         handler(cmd)?.let(eventStore)
 
     @Test

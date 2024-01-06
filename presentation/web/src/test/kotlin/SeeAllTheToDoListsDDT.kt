@@ -33,7 +33,6 @@ class SeeAllTheToDoListsDDT : ZettaiDDT(allActions()) {
             dylan.`can create as new list called #listname`("music"),
             dylan.`can see the lists #listNames`(setOf("gardening", "music"))
         )
-            .wip(LocalDate.of(2024, Month.JANUARY, 31))
     }
 
     private fun generateSomeToDoLists(): Map<String, List<String>> {

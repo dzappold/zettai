@@ -28,7 +28,7 @@ class HttpActions(val env: String = "local") : ZettaiActions {
 
     private val eventStreamer: ToDoListEventStreamer = ToDoListEventStreamerInMemory()
     private val eventStore = ToDoListEventStore(eventStreamer)
-    private val commandHandler = ToDoListCommandHandler(eventStore)
+    private val commandHandler = ToDoListCommandHandler(eventStore, fetcher)
 
     private val hub = ToDoListHub(fetcher, commandHandler, eventStore)
     override val protocol = Http(env)

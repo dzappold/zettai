@@ -3,7 +3,8 @@ import java.util.concurrent.atomic.AtomicReference
 typealias CommandHandler<CMD, EVENT> = (CMD) -> List<EVENT>?
 
 class ToDoListCommandHandler(
-    private val entityRetriever: ToDoListRetriever
+    private val entityRetriever: ToDoListRetriever,
+    val readModel: ToDoListUpdatableFetcher // temporary
 ) : CommandHandler<ToDoListCommand, ToDoListEvent> {
     override fun invoke(command: ToDoListCommand): List<ToDoListEvent>? =
         when (command) {
@@ -16,6 +17,7 @@ class ToDoListCommandHandler(
             ?.let { listState ->
                 when (listState) {
                     InitialState -> {
+                        readModel.assignListToUser(user, ToDoList(name, emptyList()))
                         ListCreated(id, user, name).toList()
                     }
                     else -> null// command fail
