@@ -1,4 +1,8 @@
-class ToDoListHub(private val fetcher: ToDoListUpdatableFetcher) : ZettaiHub {
+class ToDoListHub(
+    private val fetcher: ToDoListUpdatableFetcher,
+    val commandHandler: ToDoListCommandHandler,
+    val persistEvents: EventPersister<ToDoListEvent>
+) : ZettaiHub {
     override fun getList(user: User, listName: ListName): ToDoList? =
         fetcher.get(user, listName)
 
@@ -14,6 +18,11 @@ class ToDoListHub(private val fetcher: ToDoListUpdatableFetcher) : ZettaiHub {
     override fun createToDoList(user: User, listName: ListName) {
         TODO("Not yet implemented")
     }
+
+    override fun handle(command: ToDoListCommand): ToDoListCommand? =
+        commandHandler(command)
+            ?.let(persistEvents)
+            ?.let { command }
 }
 
 fun ToDoList.replaceItem(item: ToDoItem) =

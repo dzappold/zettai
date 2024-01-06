@@ -25,7 +25,12 @@ import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE
 class HttpActions(val env: String = "local") : ZettaiActions {
     fun emptyStore(): ToDoListStore = mutableMapOf()
     val fetcher = ToDoListFetcherFromMap(emptyStore())
-    private val hub = ToDoListHub(fetcher)
+
+    private val eventStreamer: ToDoListEventStreamer = ToDoListEventStreamerInMemory()
+    private val eventStore = ToDoListEventStore(eventStreamer)
+    private val commandHandler = ToDoListCommandHandler(eventStore)
+
+    private val hub = ToDoListHub(fetcher, commandHandler, eventStore)
     override val protocol = Http(env)
 
     val zettaiPort = 8000

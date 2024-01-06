@@ -1,12 +1,14 @@
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
-import kotlin.random.Random
 
 class ToDoListHubShould {
     private fun emptyStore(): ToDoListStore = mutableMapOf()
+    private val eventStreamer: ToDoListEventStreamer = ToDoListEventStreamerInMemory()
+    private val eventStore = ToDoListEventStore(eventStreamer)
+    private val commandHandler: ToDoListCommandHandler = ToDoListCommandHandler(eventStore)
     private val fetcher = ToDoListFetcherFromMap(emptyStore())
-    private val hub = ToDoListHub(fetcher)
+    private val hub = ToDoListHub(fetcher, commandHandler, eventStore)
 
     @Test
     fun `get list by user and name`() {

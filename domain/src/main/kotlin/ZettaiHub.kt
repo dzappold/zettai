@@ -5,6 +5,7 @@ interface ZettaiHub {
     fun addItemToList(user: User, listName: ListName, item: ToDoItem): ToDoList?
     fun getLists(user: User): List<ListName>?
     fun createToDoList(user: User, listName: ListName)
+    fun handle(command: ToDoListCommand): ToDoListCommand?
 }
 
 data class ToDoList(val listName: ListName, val items: List<ToDoItem>)

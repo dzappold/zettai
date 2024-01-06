@@ -34,7 +34,8 @@ class Zettai(val hub: ZettaiHub) : HttpHandler {
         val listName = request.extractListNameFromForm("listname")
 
         return listName
-            ?.let { hub.createToDoList(user, it) }
+            ?.let { CreateToDoList(user, it) }
+            ?.let(hub::handle)
             ?.let { Response(SEE_OTHER).header("Location", "/todo/${user.name}") }
             ?: Response(BAD_REQUEST)
     }

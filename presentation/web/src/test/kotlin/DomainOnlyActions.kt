@@ -8,7 +8,11 @@ class DomainOnlyActions : ZettaiActions {
     fun emptyStore(): ToDoListStore = mutableMapOf()
     private val fetcher = ToDoListFetcherFromMap(emptyStore())
 
-    private val hub by lazy { ToDoListHub(fetcher) }
+    private val eventStreamer = ToDoListEventStreamerInMemory()
+    private val eventStore = ToDoListEventStore(eventStreamer)
+    private val commandHandler = ToDoListCommandHandler(eventStore)
+
+    private val hub by lazy { ToDoListHub(fetcher, commandHandler, eventStore) }
     override fun ToDoListOwner.`starts with a list`(listName: String, items: List<String>) {
         fetcher.assignListToUser(user, ToDoList(ListName.fromTrusted(listName), items.map(::ToDoItem)))
     }
