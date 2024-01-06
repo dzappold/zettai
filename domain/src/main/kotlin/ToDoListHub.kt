@@ -15,10 +15,6 @@ class ToDoListHub(
     override fun getLists(user: User): List<ListName>? =
         fetcher.getAll(user)
 
-    override fun createToDoList(user: User, listName: ListName) {
-        TODO("Not yet implemented")
-    }
-
     override fun handle(command: ToDoListCommand): ToDoListCommand? =
         commandHandler(command)
             ?.let(persistEvents)
