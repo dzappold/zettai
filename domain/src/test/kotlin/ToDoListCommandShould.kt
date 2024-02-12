@@ -1,4 +1,3 @@
-import io.kotest.inspectors.forAll
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.types.shouldBeInstanceOf
 import org.junit.jupiter.api.Test
@@ -28,11 +27,9 @@ class ToDoListCommandShould {
     @Test
     fun `Add list fails if the user has already a list with same name`() {
         val cmd = CreateToDoList(randomUser(), randomListName())
-        val result = handle(cmd).expectSuccess()
+        val result = handle(cmd).expectSuccess().single()
 
-        result.forAll { toDoListEvent ->
-            toDoListEvent.shouldBeInstanceOf<ListCreated>()
-        }
+        result.shouldBeInstanceOf<ListCreated>()
 
         val duplicated = handle(cmd).expectFailure()
         duplicated.shouldBeInstanceOf<InconsistentStateError>()
