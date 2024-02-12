@@ -1,9 +1,9 @@
 import java.time.LocalDate
 
 interface ZettaiHub {
-    fun getList(user: User, listName: ListName): ToDoList?
-    fun getLists(user: User): List<ListName>?
-    fun handle(command: ToDoListCommand): ToDoListCommand?
+    fun getList(user: User, listName: ListName): ZettaiOutcome<ToDoList>
+    fun getLists(user: User): ZettaiOutcome<List<ListName>>
+    fun handle(command: ToDoListCommand): ZettaiOutcome<ToDoListCommand>
 }
 
 data class ToDoList(val listName: ListName, val items: List<ToDoItem>)
@@ -11,11 +11,12 @@ data class ListName internal constructor(val name: String) {
     companion object {
         private val validUrlPattern = "[A-Za-z0-9-]+".toRegex()
         fun fromTrusted(name: String): ListName = ListName(name)
+
         fun fromUntrusted(name: String): ListName? =
-            if (name.matches(validUrlPattern) && name.length in 1..40)
-                fromTrusted(name)
-            else
-                null
+            if (name.matches(validUrlPattern) && name.length in 1..40) fromTrusted(name) else null
+
+        fun fromUntrustedOrThrow(name: String): ListName =
+            fromUntrusted(name) ?: throw IllegalArgumentException("Invalid list name $name")
     }
 }
 

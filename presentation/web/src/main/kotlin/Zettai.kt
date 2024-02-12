@@ -40,9 +40,9 @@ class Zettai(private val hub: ZettaiHub) : HttpHandler {
         val listName = listNameLens(request)
 
         return hub.getList(user, listName)
-            ?.let { toDoList -> renderPage(toDoList) }
-            ?.let { renderPage -> createResponse(renderPage) }
-            ?: Response(NOT_FOUND)
+            .transform { toDoList -> renderPage(toDoList) }
+            .transform { renderPage -> createResponse(renderPage) }
+            .recover { Response(NOT_FOUND) }
     }
 
     private fun addNewItem(request: Request): Response {
@@ -52,17 +52,16 @@ class Zettai(private val hub: ZettaiHub) : HttpHandler {
 
         return AddToDoItem(user, listName, item)
             .let(hub::handle)
-            ?.let { Response(SEE_OTHER).with(Header.LOCATION of Uri.of("/todo/${user.name}/${listName.name}")) }
-            ?: Response(BAD_REQUEST)
+            .transform { Response(SEE_OTHER).with(Header.LOCATION of Uri.of("/todo/${user.name}/${listName.name}")) }
+            .recover { Response(BAD_REQUEST) }
     }
 
     private fun getAllLists(request: Request): Response {
         val user = userLens(request)
-
         return hub.getLists(user)
-            ?.let { renderListsPage(user, it) }
-            ?.let(::createResponse)
-            ?: Response(BAD_REQUEST)
+            .transform { renderListsPage(user, it) }
+            .transform { createResponse(it) }
+            .recover { Response(BAD_REQUEST) }
     }
 
     private fun createNewList(request: Request): Response {
@@ -76,13 +75,9 @@ class Zettai(private val hub: ZettaiHub) : HttpHandler {
             ?: Response(BAD_REQUEST)
     }
 
-    private fun extractListData(request: Request): Pair<User, ListName> {
-        return userLens(request) to listNameLens(request)
-    }
-
     private fun fetchListContent(listId: Pair<User, ListName>): ToDoList =
         hub.getList(listId.first, listId.second)
-            ?: error("List unknown")
+            .recover { error("List unknown") }
 
     private fun createResponse(html: HtmlPage): Response = Response(OK).body(html.raw)
 }

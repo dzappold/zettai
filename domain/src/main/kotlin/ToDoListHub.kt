@@ -3,16 +3,20 @@ class ToDoListHub(
     val commandHandler: ToDoListCommandHandler,
     val persistEvents: EventPersister<ToDoListEvent>
 ) : ZettaiHub {
-    override fun getList(user: User, listName: ListName): ToDoList? =
-        fetcher.get(user, listName)
+    override fun getList(user: User, listName: ListName) =
+        fetcher
+            .get(user, listName)
+            .failIfNull(InvalidRequestError("List $listName of user $user not found!"))
 
-    override fun getLists(user: User): List<ListName>? =
-        fetcher.getAll(user)
+    override fun getLists(user: User) =
+        fetcher
+            .getAll(user)
+            .failIfNull(InvalidRequestError("Lists for user $user not found!"))
 
-    override fun handle(command: ToDoListCommand): ToDoListCommand? =
+    override fun handle(command: ToDoListCommand) =
         commandHandler(command)
-            ?.let(persistEvents)
-            ?.let { command }
+            .transform(persistEvents)
+            .transform { command }
 }
 
 interface ToDoListFetcher {

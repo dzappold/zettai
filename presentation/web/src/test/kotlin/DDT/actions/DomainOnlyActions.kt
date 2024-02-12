@@ -2,6 +2,9 @@ package DDT.actions
 
 import AddToDoItem
 import CreateToDoList
+import DDT.actors.ToDoListOwner
+import DDT.actors.expectSuccess
+import InvalidRequestError
 import ListName
 import ToDoItem
 import ToDoList
@@ -10,11 +13,12 @@ import ToDoListEventStore
 import ToDoListEventStreamerInMemory
 import ToDoListFetcherFromMap
 import ToDoListHub
-import DDT.actors.ToDoListOwner
 import ToDoListStore
 import User
+import ZettaiOutcome
 import com.ubertob.pesticide.core.DomainOnly
 import com.ubertob.pesticide.core.Ready
+import failIfNull
 import strikt.api.expectThat
 import strikt.assertions.hasSize
 
@@ -32,27 +36,24 @@ class DomainOnlyActions : ZettaiActions {
     private val hub by lazy { ToDoListHub(fetcher, commandHandler, eventStore) }
 
     override fun ToDoListOwner.`starts with a list`(listName: String, items: List<String>) {
-        val name = ListName.fromTrusted(listName)
+        val list = ListName.fromTrusted(listName)
 
-        val command = hub.handle(CreateToDoList(user, name))
-        command ?: error("failed to create list $listName")
+        hub.handle(CreateToDoList(user, list)).expectSuccess()
 
-        val created = items.mapNotNull { description ->
-            hub.handle(AddToDoItem(user, name, ToDoItem(description)))
+        val created = items.map { description ->
+            hub.handle(AddToDoItem(user, list, ToDoItem(description)))
         }
         expectThat(created).hasSize(items.size)
     }
 
-    override fun allUserLists(user: User): List<ListName> {
-        return fetcher.getAll(user) ?: emptyList()
-    }
+    override fun allUserLists(user: User): ZettaiOutcome<List<ListName>> =
+        fetcher
+            .getAll(user)
+            .failIfNull(InvalidRequestError("something"))
 
-    override fun createList(user: User, listName: ListName) {
-        hub.handle(CreateToDoList(user, listName))
+    override fun getToDoList(user: User, listName: ListName): ZettaiOutcome<ToDoList> {
+        return hub.getList(user, listName)
     }
-
-    override fun getToDoList(user: User, listName: ListName): ToDoList? =
-        hub.getList(user, listName)
 
     override fun addListItem(user: User, listName: ListName, item: ToDoItem) {
         hub.handle(AddToDoItem(user, listName, item))

@@ -1,6 +1,7 @@
 package DDT.actions
 
-import ui.HtmlPage
+import DDT.actors.ToDoListOwner
+import InvalidRequestError
 import ListName
 import ToDoItem
 import ToDoList
@@ -10,11 +11,13 @@ import ToDoListEventStreamer
 import ToDoListEventStreamerInMemory
 import ToDoListFetcherFromMap
 import ToDoListHub
-import DDT.actors.ToDoListOwner
 import ToDoListStore
 import ToDoStatus
 import User
 import Zettai
+import ZettaiOutcome
+import asFailure
+import asSuccess
 import com.ubertob.pesticide.core.DomainSetUp
 import com.ubertob.pesticide.core.Http
 import com.ubertob.pesticide.core.Ready
@@ -37,6 +40,7 @@ import org.jsoup.nodes.Element
 import strikt.api.expectThat
 import strikt.assertions.hasSize
 import strikt.assertions.isEqualTo
+import ui.HtmlPage
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE
 
@@ -75,16 +79,16 @@ class HttpActions(env: String = "local") : ZettaiActions {
         expectThat(created).hasSize(items.size)
     }
 
-    override fun allUserLists(user: User): List<ListName> {
+    override fun allUserLists(user: User): ZettaiOutcome<List<ListName>> {
         val response = callZettai(GET, allUserListsUrl(user))
         expectThat(response.status).isEqualTo(OK)
 
         val html = HtmlPage(response.bodyString())
         val names = extractListNamesFromPage(html)
-        return names.map(ListName.Companion::fromTrusted)
+        return names.map(ListName.Companion::fromTrusted).asSuccess()
     }
 
-    override fun createList(user: User, listName: ListName) {
+    fun createList(user: User, listName: ListName) {
         val response = submitToZettai(allUserListsUrl(user), newListForm(listName))
         expectThat(response.status).isEqualTo(SEE_OTHER)
     }
@@ -100,11 +104,11 @@ class HttpActions(env: String = "local") : ZettaiActions {
 
     private fun allUserListsUrl(user: User): String = "todo/${user.name}"
 
-    override fun getToDoList(user: User, listName: ListName): ToDoList? {
+    override fun getToDoList(user: User, listName: ListName): ZettaiOutcome<ToDoList> {
         val response = callZettai(GET, todoListUrl(user, listName))
 
         if (response.status == NOT_FOUND)
-            return null
+            return InvalidRequestError("list $listName for $user not found").asFailure()
 
         expectThat(response.status).isEqualTo(OK)
 
@@ -112,7 +116,7 @@ class HttpActions(env: String = "local") : ZettaiActions {
 
         val items = extractItemsFromPage(html)
 
-        return ToDoList(listName, items)
+        return ToDoList(listName, items).asSuccess()
     }
 
     override fun addListItem(user: User, listName: ListName, item: ToDoItem) {

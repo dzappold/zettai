@@ -32,17 +32,16 @@ class SeeAllTheToDoListsDDT : ZettaiDDT(allActions()) {
     fun `users can create new lists`() = ddtScenario {
         play(
             dylan.`cannot see any list`(),
-            dylan.`can create as new list called #listname`("gardening"),
-            dylan.`can create as new list called #listname`("music"),
+            dylan.`can create a new list called #listname`("gardening"),
+            dylan.`can create a new list called #listname`("music"),
             dylan.`can see the lists #listNames`(setOf("gardening", "music"))
         )
     }
 
-    private fun generateSomeToDoLists(): Map<String, List<String>> {
-        return mapOf(
+    private fun generateSomeToDoLists(): Map<String, List<String>> =
+        mapOf(
             "work" to listOf("meeting", "spreadsheet"),
             "home" to listOf("buy food"),
             "friends" to listOf("buy present", "book restaurant")
         )
-    }
 }

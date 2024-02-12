@@ -1,4 +1,3 @@
-import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
@@ -21,7 +20,8 @@ class ToDoListHubShould {
             fetcher.assignListToUser(user, list)
 
             val myList = hub.getList(user, list.listName)
-            myList shouldBe list
+            myList.expectSuccess()
+            (myList as Success).value shouldBe list
         }
     }
 
@@ -37,8 +37,8 @@ class ToDoListHubShould {
             fetcher.assignListToUser(firstUser, firstList)
             fetcher.assignListToUser(secondUser, secondList)
 
-            hub.getList(firstUser, secondList.listName).shouldBeNull()
-            hub.getList(secondUser, firstList.listName).shouldBeNull()
+            hub.getList(firstUser, secondList.listName).expectFailure()
+            hub.getList(secondUser, firstList.listName).expectFailure()
         }
     }
 
