@@ -2,13 +2,13 @@ package DDT.actors
 
 import DDT.actions.ZettaiActions
 import ListName
-import Outcome
-import OutcomeError
+import fp.Outcome
+import fp.OutcomeError
 import ToDoItem
 import ToDoList
 import User
 import com.ubertob.pesticide.core.DdtActor
-import onFailure
+import fp.onFailure
 import org.junit.jupiter.api.fail
 import strikt.api.Assertion
 import strikt.api.expectThat

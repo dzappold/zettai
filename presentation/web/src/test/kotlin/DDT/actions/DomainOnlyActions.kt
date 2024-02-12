@@ -1,16 +1,16 @@
 package DDT.actions
 
-import AddToDoItem
-import CreateToDoList
+import commands.AddToDoItem
+import commands.CreateToDoList
 import DDT.actors.ToDoListOwner
 import DDT.actors.expectSuccess
 import InvalidRequestError
 import ListName
 import ToDoItem
 import ToDoList
-import ToDoListCommandHandler
-import ToDoListEventStore
-import ToDoListEventStreamerInMemory
+import commands.ToDoListCommandHandler
+import events.ToDoListEventStore
+import events.ToDoListEventStreamerInMemory
 import ToDoListFetcherFromMap
 import ToDoListHub
 import ToDoListStore
@@ -18,7 +18,7 @@ import User
 import ZettaiOutcome
 import com.ubertob.pesticide.core.DomainOnly
 import com.ubertob.pesticide.core.Ready
-import failIfNull
+import fp.failIfNull
 import strikt.api.expectThat
 import strikt.assertions.hasSize
 

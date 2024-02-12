@@ -5,10 +5,10 @@ import InvalidRequestError
 import ListName
 import ToDoItem
 import ToDoList
-import ToDoListCommandHandler
-import ToDoListEventStore
-import ToDoListEventStreamer
-import ToDoListEventStreamerInMemory
+import commands.ToDoListCommandHandler
+import events.ToDoListEventStore
+import events.ToDoListEventStreamer
+import events.ToDoListEventStreamerInMemory
 import ToDoListFetcherFromMap
 import ToDoListHub
 import ToDoListStore
@@ -16,8 +16,8 @@ import ToDoStatus
 import User
 import Zettai
 import ZettaiOutcome
-import asFailure
-import asSuccess
+import fp.asFailure
+import fp.asSuccess
 import com.ubertob.pesticide.core.DomainSetUp
 import com.ubertob.pesticide.core.Http
 import com.ubertob.pesticide.core.Ready

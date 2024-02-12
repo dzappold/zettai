@@ -1,3 +1,5 @@
+package fp
+
 sealed class Outcome<out E : OutcomeError, out T> {
     fun <U> transform(f: (T) -> U): Outcome<E, U> = when (this) {
         is Success -> f(value).asSuccess()

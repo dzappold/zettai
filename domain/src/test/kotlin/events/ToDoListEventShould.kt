@@ -1,5 +1,11 @@
+package events
+
+import commands.ToDoListId
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
+import randomItem
+import randomListName
+import randomUser
 
 class ToDoListEventShould {
     val id = ToDoListId.mint()

@@ -1,3 +1,8 @@
+import commands.ToDoListCommand
+import events.ToDoListState
+import fp.Outcome
+import fp.OutcomeError
+
 sealed class ZettaiError : OutcomeError
 data class InvalidRequestError(override val msg: String) : ZettaiError()
 data class ToDoListCommandError(override val msg: String) : ZettaiError()

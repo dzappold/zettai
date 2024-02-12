@@ -1,3 +1,10 @@
+package events
+
+import ListName
+import ToDoItem
+import User
+import commands.EntityId
+import commands.ToDoListId
 import java.time.Instant
 
 interface EntityEvent {
