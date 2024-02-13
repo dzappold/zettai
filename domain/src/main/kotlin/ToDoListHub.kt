@@ -30,15 +30,6 @@ interface ToDoListFetcher {
     fun getAll(user: User): List<ListName>?
 }
 
-typealias ToDoListMap = Map<User, Map<ListName, ToDoList>>
-
-fun mapFetcher(map: ToDoListMap, user: User, listName: ListName): ToDoList? =
-    map[user]?.get(listName)
-
-fun <A, B, C, R> partial(f: (A, B, C) -> R, a: A): (B, C) -> R =
-    { b, c -> f(a, b, c) }
-
-//val fetcher: ToDoListFetcher = partial(::mapFetcher, map)
 interface ToDoListUpdatableFetcher : ToDoListFetcher {
     fun assignListToUser(user: User, list: ToDoList): ToDoList?
     fun addItemToList(user: User, name: ListName, item: ToDoItem): ToDoList? =
