@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-    api("dev.forkhandles:result4k")
+    api(libs.result4k)
 }
