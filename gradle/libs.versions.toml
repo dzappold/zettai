@@ -41,10 +41,13 @@ mockk = { module = "io.mockk:mockk-jvm", version.ref = "mockk-version" }
 pesticide = { module = "com.ubertob.pesticide:pesticide-core", version.ref = "pesticide-version" }
 result4k = { module = "dev.forkhandles:result4k", version.ref = "forkhandles-version" }
 result4k-kotest = { module = "dev.forkhandles:result4k-kotest", version.ref = "forkhandles-version" }
+kure-potlin = { module = "pl.setblack:kure-potlin", version.ref = "kure-potlin-version" }
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt-version" }
 kotlin-gradle = { id = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-version" }
+ben-manes = { id = "com.github.ben-manes.versions", version.ref = "ben-manes-version" }
+dependency-check = { id = "org.owasp.dependencycheck", version.ref = "dependency-check-version" }
 
 [bundles]
 http4k = ["http4k-core", "http4k-cloudevents", "http4k-cloudnative", "http4k-contract", "http4k-failsafe", "http4k-jackson", "http4k-jetty", "http4k-okhttp", "http4k-undertow"]

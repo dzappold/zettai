@@ -19,8 +19,6 @@ val jvmVersion: String by project
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(jvmVersion))
 kotlin.jvmToolchain(jvmVersion.toInt())
 
-val kotlinVersion: String by project
-val kurePotlinVersion: String by project
 val libs = the<LibrariesForLibs>()
 
 dependencies {
@@ -35,7 +33,7 @@ dependencies {
     }
     testImplementation(libs.pesticide)
 
-    detektPlugins("pl.setblack:kure-potlin:$kurePotlinVersion")
+    detektPlugins(libs.kure.potlin)
 }
 
 tasks {

@@ -1,9 +1,10 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 // TODO: test and coverage aggregation
+// TODO: license check
 plugins {
-    id("com.github.ben-manes.versions")
-    id("org.owasp.dependencycheck")
+    alias(libs.plugins.ben.manes)
+    alias(libs.plugins.dependency.check)
 }
 
 tasks {
