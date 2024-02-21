@@ -1,10 +1,24 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import com.github.jk1.license.filter.DependencyFilter
+import com.github.jk1.license.filter.LicenseBundleNormalizer
+import com.github.jk1.license.render.InventoryHtmlReportRenderer
+import com.github.jk1.license.render.ReportRenderer
 
 // TODO: test and coverage aggregation
 // TODO: license check
 plugins {
+    `test-report-aggregation`
+    `jacoco-report-aggregation`
     alias(libs.plugins.ben.manes)
     alias(libs.plugins.dependency.check)
+
+    id("com.github.jk1.dependency-license-report") version "2.5"
+    id("com.autonomousapps.dependency-analysis") version "1.30.0"
+}
+
+dependencies {
+    testReportAggregation(project(":domain"))
+    jacocoAggregation(project(":domain"))
 }
 
 tasks {
@@ -22,4 +36,10 @@ tasks {
         outputDir = "build/dependencyUpdates"
         reportfileName = "report"
     }
+}
+
+licenseReport {
+    renderers = arrayOf<ReportRenderer>(InventoryHtmlReportRenderer("report.html", "Backend"))
+    filters = arrayOf<DependencyFilter>(LicenseBundleNormalizer())
+    allowedLicensesFile = file("$projectDir/config/allowed-licenses.json")
 }
