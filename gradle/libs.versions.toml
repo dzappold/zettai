@@ -11,7 +11,7 @@ junit-version = "5.10.2"
 kotest-version = "5.8.0"
 kotlin-version = "1.9.22"
 kure-potlin-version = "0.7.0"
-mockk-version = "1.13.9"
+mockk-version = "1.13.10"
 pesticide-version = "1.6.6"
 
 [libraries]
