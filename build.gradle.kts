@@ -12,7 +12,7 @@ plugins {
     alias(libs.plugins.ben.manes)
     alias(libs.plugins.dependency.check)
 
-    id("com.github.jk1.dependency-license-report") version "2.5"
+    id("com.github.jk1.dependency-license-report") version "2.6"
     id("com.autonomousapps.dependency-analysis") version "1.30.0"
 }
 
