@@ -1,6 +1,6 @@
 [versions]
 ben-manes-version = "0.51.0"
-dependency-check-version = "9.0.9"
+dependency-check-version = "9.0.10"
 detekt-version = "1.23.5"
 foojay-version = "0.7.0"
 forkhandles-version = "2.14.0.0"
