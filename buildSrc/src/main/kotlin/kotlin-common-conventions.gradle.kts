@@ -40,7 +40,11 @@ tasks {
     withType<Test>().configureEach {
         useJUnitPlatform()
         testLogging {
-            events(PASSED, SKIPPED, FAILED)
+            events(
+//                PASSED,
+                SKIPPED,
+                FAILED
+            )
         }
         outputs.upToDateWhen { false }
         finalizedBy(jacocoTestReport) // report is always generated after tests run
