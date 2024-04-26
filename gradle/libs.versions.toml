@@ -10,7 +10,6 @@ jsoup-version = "1.17.2"
 junit-version = "5.10.2"
 kotest-version = "5.8.1"
 kotlin-version = "1.9.23"
-kure-potlin-version = "0.7.0"
 mockk-version = "1.13.10"
 pesticide-version = "1.6.6"
 
@@ -43,7 +42,6 @@ mockk = { module = "io.mockk:mockk-jvm", version.ref = "mockk-version" }
 pesticide = { module = "com.ubertob.pesticide:pesticide-core", version.ref = "pesticide-version" }
 result4k = { module = "dev.forkhandles:result4k", version.ref = "forkhandles-version" }
 result4k-kotest = { module = "dev.forkhandles:result4k-kotest", version.ref = "forkhandles-version" }
-kure-potlin = { module = "pl.setblack:kure-potlin", version.ref = "kure-potlin-version" }
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt-version" }

@@ -32,8 +32,6 @@ dependencies {
         exclude("junit", "junit")
     }
     testImplementation(libs.pesticide)
-
-    detektPlugins(libs.kure.potlin)
 }
 
 tasks {
