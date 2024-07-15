@@ -10,7 +10,7 @@ jsoup-version = "1.18.1"
 junit-version = "5.10.3"
 kotest-version = "5.9.1"
 kotlin-version = "2.0.0"
-mockk-version = "1.13.11"
+mockk-version = "1.13.12"
 pesticide-version = "1.6.6"
 
 [libraries]
