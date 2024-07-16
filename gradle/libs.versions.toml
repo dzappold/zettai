@@ -4,8 +4,8 @@ dependency-check-version = "10.0.3"
 detekt-version = "1.23.6"
 foojay-version = "0.8.0"
 forkhandles-version = "2.19.0.0"
-http4k-connect-version = "5.18.0.0"
-http4k-version = "5.25.0.0"
+http4k-connect-version = "5.19.0.0"
+http4k-version = "5.26.0.0"
 jsoup-version = "1.18.1"
 junit-version = "5.10.3"
 kotest-version = "5.9.1"
@@ -16,6 +16,7 @@ pesticide-version = "1.6.6"
 [libraries]
 http4k-cloudevents = { module = "org.http4k:http4k-cloudevents", version.ref = "http4k-version" }
 http4k-cloudnative = { module = "org.http4k:http4k-cloudnative", version.ref = "http4k-version" }
+http4k-config = { module = "org.http4k:http4k-config", version.ref = "http4k-version" }
 http4k-connect-redis = { module = "org.http4k:http4k-connect-storage-redis", version.ref = "http4k-connect-version" }
 http4k-contract = { module = "org.http4k:http4k-contract", version.ref = "http4k-version" }
 http4k-core = { module = "org.http4k:http4k-core", version.ref = "http4k-version" }
@@ -23,6 +24,8 @@ http4k-failsafe = { module = "org.http4k:http4k-failsafe", version.ref = "http4k
 http4k-jackson = { module = "org.http4k:http4k-format-jackson", version.ref = "http4k-version" }
 http4k-jetty = { module = "org.http4k:http4k-server-jetty", version.ref = "http4k-version" }
 http4k-okhttp = { module = "org.http4k:http4k-client-okhttp", version.ref = "http4k-version" }
+http4k-apache = { module = "org.http4k:http4k-client-apache", version.ref = "http4k-version" }
+http4k-helidon = { module = "org.http4k:http4k-client-helidon", version.ref = "http4k-version" }
 http4k-testing-approval = { module = "org.http4k:http4k-testing-approval", version.ref = "http4k-version" }
 http4k-testing-chaos = { module = "org.http4k:http4k-testing-chaos", version.ref = "http4k-version" }
 http4k-testing-kotest = { module = "org.http4k:http4k-testing-kotest", version.ref = "http4k-version" }
@@ -50,7 +53,7 @@ ben-manes = { id = "com.github.ben-manes.versions", version.ref = "ben-manes-ver
 dependency-check = { id = "org.owasp.dependencycheck", version.ref = "dependency-check-version" }
 
 [bundles]
-http4k = ["http4k-core", "http4k-cloudevents", "http4k-cloudnative", "http4k-contract", "http4k-failsafe", "http4k-jackson", "http4k-jetty", "http4k-okhttp", "http4k-undertow"]
+http4k = ["http4k-core", "http4k-cloudevents", "http4k-cloudnative", "http4k-config", "http4k-contract", "http4k-failsafe", "http4k-jackson", "http4k-jetty", "http4k-okhttp", "http4k-undertow"]
 http4k-testing = ["http4k-testing-approval", "http4k-testing-chaos", "http4k-testing-kotest", "http4k-testing-strict", "http4k-testing-servirtium"]
 kotest = ["kotest-assertion", "kotest-assertion-json", "kotest-junit-runner", "kotest-property"]
 junit = ["junit-api", "junit-params", "junit-engine"]

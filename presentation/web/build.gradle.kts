@@ -15,6 +15,8 @@ dependencies {
 
     testImplementation(libs.jsoup)
     testImplementation(libs.bundles.http4k.testing)
+    testImplementation(libs.http4k.helidon)
+    testImplementation(libs.http4k.apache)
 }
 
 application {
