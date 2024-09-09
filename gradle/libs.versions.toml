@@ -1,7 +1,7 @@
 [versions]
 ben-manes-version = "0.51.0"
 dependency-check-version = "10.0.4"
-detekt-version = "1.23.6"
+detekt-version = "1.23.7"
 foojay-version = "0.8.0"
 forkhandles-version = "2.20.0.0"
 http4k-connect-version = "5.23.0.0"
