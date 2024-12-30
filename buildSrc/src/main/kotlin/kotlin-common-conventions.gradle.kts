@@ -1,8 +1,10 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
-import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
@@ -67,18 +69,19 @@ tasks {
     }
 
 
-//    withType<KotlinCompile> {
-//        compilerOptions {
-//            freeCompilerArgs.set(
-//                listOf(
-//                    "-Xcontext-receivers",
-//                    "-Xjsr305=strict"
-//                )
-//            )
-//            jvmTarget.set(JVM_17)
-//            languageVersion.set(KOTLIN_2_0)
-//        }
-//    }
+    withType<KotlinCompile> {
+        compilerOptions {
+            freeCompilerArgs.set(
+                listOf(
+                    "-Xcontext-receivers",
+                    "-Xconsistent-data-class-copy-visibility",
+                    "-Xjsr305=strict"
+                )
+            )
+            jvmTarget.set(JVM_21)
+            languageVersion.set(KOTLIN_2_1)
+        }
+    }
 }
 
 
