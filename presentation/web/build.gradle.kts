@@ -8,15 +8,15 @@ dependencies {
     implementation(project(":domain"))
 
     implementation(libs.bundles.http4k)
-    implementation(libs.http4k.connect.redis)
+    implementation(libs.http4k.connect.storage.redis)
     testImplementation(libs.pesticide)
 
     testImplementation(testFixtures(project(":domain")))
 
     testImplementation(libs.jsoup)
     testImplementation(libs.bundles.http4k.testing)
-    testImplementation(libs.http4k.helidon)
-    testImplementation(libs.http4k.apache)
+    testImplementation(libs.http4k.client.helidon)
+    testImplementation(libs.http4k.client.apache)
 }
 
 application {

@@ -13,32 +13,32 @@ mockk-version = "1.13.14"
 pesticide-version = "1.6.6"
 
 [libraries]
-http4k-cloudevents = { module = "org.http4k:http4k-cloudevents", version.ref = "http4k-version" }
-http4k-cloudnative = { module = "org.http4k:http4k-cloudnative", version.ref = "http4k-version" }
+http4k-api-openapi = { module = "org.http4k:http4k-api-openapi", version.ref = "http4k-version" }
+http4k-api-ui-redoc = { module = "org.http4k:http4k-api-ui-redoc", version.ref = "http4k-version" }
+http4k-client-apache = { module = "org.http4k:http4k-client-apache", version.ref = "http4k-version" }
+http4k-client-helidon = { module = "org.http4k:http4k-client-helidon", version.ref = "http4k-version" }
+http4k-client-okhttp = { module = "org.http4k:http4k-client-okhttp", version.ref = "http4k-version" }
 http4k-config = { module = "org.http4k:http4k-config", version.ref = "http4k-version" }
-http4k-connect-redis = { module = "org.http4k:http4k-connect-storage-redis", version.ref = "http4k-version" }
-http4k-contract = { module = "org.http4k:http4k-contract", version.ref = "http4k-version" }
+http4k-connect-storage-redis = { module = "org.http4k:http4k-connect-storage-redis", version.ref = "http4k-version" }
 http4k-core = { module = "org.http4k:http4k-core", version.ref = "http4k-version" }
-http4k-failsafe = { module = "org.http4k:http4k-failsafe", version.ref = "http4k-version" }
-http4k-jackson = { module = "org.http4k:http4k-format-jackson", version.ref = "http4k-version" }
-http4k-jetty = { module = "org.http4k:http4k-server-jetty", version.ref = "http4k-version" }
-http4k-okhttp = { module = "org.http4k:http4k-client-okhttp", version.ref = "http4k-version" }
-http4k-apache = { module = "org.http4k:http4k-client-apache", version.ref = "http4k-version" }
-http4k-helidon = { module = "org.http4k:http4k-client-helidon", version.ref = "http4k-version" }
+http4k-format-jackson = { module = "org.http4k:http4k-format-jackson", version.ref = "http4k-version" }
+http4k-ops-failsafe = { module = "org.http4k:http4k-ops-failsafe", version.ref = "http4k-version" }
+http4k-platform-k8s = { module = "org.http4k:http4k-platform-k8s", version.ref = "http4k-version" }
+http4k-server-jetty = { module = "org.http4k:http4k-server-jetty", version.ref = "http4k-version" }
+http4k-server-undertow = { module = "org.http4k:http4k-server-undertow", version.ref = "http4k-version" }
 http4k-testing-approval = { module = "org.http4k:http4k-testing-approval", version.ref = "http4k-version" }
 http4k-testing-chaos = { module = "org.http4k:http4k-testing-chaos", version.ref = "http4k-version" }
 http4k-testing-kotest = { module = "org.http4k:http4k-testing-kotest", version.ref = "http4k-version" }
 http4k-testing-servirtium = { module = "org.http4k:http4k-testing-servirtium", version.ref = "http4k-version" }
 http4k-testing-strict = { module = "org.http4k:http4k-testing-strikt", version.ref = "http4k-version" }
-http4k-undertow = { module = "org.http4k:http4k-server-undertow", version.ref = "http4k-version" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup-version" }
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit-version" }
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-version" }
 junit-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit-version" }
 kotest-assertion = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest-version" }
 kotest-assertion-json = { module = "io.kotest:kotest-assertions-json", version.ref = "kotest-version" }
-kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest-version" }
 kotest-junit-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest-version" }
+kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest-version" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin-version" }
 mockk = { module = "io.mockk:mockk-jvm", version.ref = "mockk-version" }
 pesticide = { module = "com.ubertob.pesticide:pesticide-core", version.ref = "pesticide-version" }
@@ -46,13 +46,30 @@ result4k = { module = "dev.forkhandles:result4k", version.ref = "forkhandles-ver
 result4k-kotest = { module = "dev.forkhandles:result4k-kotest", version.ref = "forkhandles-version" }
 
 [plugins]
-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt-version" }
-kotlin-gradle = { id = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-version" }
 ben-manes = { id = "com.github.ben-manes.versions", version.ref = "ben-manes-version" }
 dependency-check = { id = "org.owasp.dependencycheck", version.ref = "dependency-check-version" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt-version" }
+kotlin-gradle = { id = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-version" }
 
 [bundles]
-http4k = ["http4k-core", "http4k-cloudevents", "http4k-cloudnative", "http4k-config", "http4k-contract", "http4k-failsafe", "http4k-jackson", "http4k-jetty", "http4k-okhttp", "http4k-undertow"]
-http4k-testing = ["http4k-testing-approval", "http4k-testing-chaos", "http4k-testing-kotest", "http4k-testing-strict", "http4k-testing-servirtium"]
+http4k = [
+    "http4k-api-openapi",
+    "http4k-api-ui-redoc",
+    "http4k-client-okhttp",
+    "http4k-config",
+    "http4k-core",
+    "http4k-format-jackson",
+    "http4k-ops-failsafe",
+    "http4k-platform-k8s",
+    "http4k-server-jetty",
+    "http4k-server-undertow",
+]
+http4k-testing = [
+    "http4k-testing-approval",
+    "http4k-testing-chaos",
+    "http4k-testing-kotest",
+    "http4k-testing-servirtium",
+    "http4k-testing-strict",
+]
 kotest = ["kotest-assertion", "kotest-assertion-json", "kotest-junit-runner", "kotest-property"]
 junit = ["junit-api", "junit-params", "junit-engine"]
