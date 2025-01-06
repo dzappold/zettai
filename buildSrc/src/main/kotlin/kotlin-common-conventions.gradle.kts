@@ -30,10 +30,12 @@ dependencies {
     testImplementation(libs.bundles.junit)
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.result4k.kotest)
-    testImplementation(libs.mockk) {
-        exclude("junit", "junit")
-    }
+    testImplementation(libs.mockk)
     testImplementation(libs.pesticide)
+}
+
+configurations.all {
+    exclude(group = "junit", module = "junit")
 }
 
 tasks {
