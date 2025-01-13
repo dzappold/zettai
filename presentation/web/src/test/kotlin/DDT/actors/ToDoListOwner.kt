@@ -2,20 +2,23 @@ package DDT.actors
 
 import DDT.actions.ZettaiActions
 import ListName
-import fp.Outcome
-import fp.OutcomeError
 import ToDoItem
 import ToDoList
 import User
 import com.ubertob.pesticide.core.DdtActor
+import fp.Outcome
+import fp.OutcomeError
 import fp.onFailure
 import org.junit.jupiter.api.fail
 import strikt.api.Assertion
 import strikt.api.expectThat
+import strikt.assertions.containsExactly
 import strikt.assertions.containsExactlyInAnyOrder
 import strikt.assertions.doesNotContain
 import strikt.assertions.isEmpty
+import strikt.assertions.isEqualTo
 import strikt.assertions.map
+import java.time.LocalDate
 
 data class ToDoListOwner(override val name: String) : DdtActor<ZettaiActions>() {
 
@@ -46,7 +49,7 @@ data class ToDoListOwner(override val name: String) : DdtActor<ZettaiActions>() 
             val lists = allUserLists(user).expectSuccess()
             expectThat(lists)
                 .map(ListName::name)
-                .containsExactlyInAnyOrder(expectedLists)
+                .containsExactly(expectedLists)
         }
 
     fun `can create a new list called #listname`(listName: String) =
@@ -59,6 +62,18 @@ data class ToDoListOwner(override val name: String) : DdtActor<ZettaiActions>() 
     fun `can add #item to the #listname`(itemName: String, listName: String) =
         step(itemName, listName) {
             val item = ToDoItem(itemName)
+            addListItem(user, ListName.fromUntrustedOrThrow(listName), item)
+        }
+
+    fun `can see that #itemname is the next task to do`(itemName: String) = step(itemName) {
+        val items = whatsNext(user).expectSuccess()
+
+        expectThat(items.firstOrNull()?.description.orEmpty()).isEqualTo(itemName)
+    }
+
+    fun `can add #itemname to the #listname due to #duedate`(itemName: String, listName: String, dueDate: LocalDate) =
+        step(itemName, listName, dueDate) {
+            val item = ToDoItem(itemName, dueDate)
             addListItem(user, ListName.fromUntrustedOrThrow(listName), item)
         }
 

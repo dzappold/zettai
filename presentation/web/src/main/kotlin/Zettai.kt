@@ -1,6 +1,9 @@
 import commands.AddToDoItem
 import commands.CreateToDoList
+import fp.failIfNull
+import fp.onFailure
 import fp.recover
+import fp.tryOrNull
 import org.http4k.core.HttpHandler
 import org.http4k.core.Method.GET
 import org.http4k.core.Method.POST
@@ -10,80 +13,97 @@ import org.http4k.core.Status.Companion.BAD_REQUEST
 import org.http4k.core.Status.Companion.NOT_FOUND
 import org.http4k.core.Status.Companion.OK
 import org.http4k.core.Status.Companion.SEE_OTHER
-import org.http4k.core.Uri
+import org.http4k.core.Status.Companion.UNPROCESSABLE_ENTITY
 import org.http4k.core.body.form
-import org.http4k.core.then
-import org.http4k.core.with
-import org.http4k.filter.ServerFilters
-import org.http4k.lens.Header
-import org.http4k.lens.Path
-import org.http4k.lens.nonBlankString
 import org.http4k.routing.bind
+import org.http4k.routing.path
 import org.http4k.routing.routes
 import ui.HtmlPage
+import ui.renderListPage
 import ui.renderListsPage
-import ui.renderPage
+import ui.renderWhatsNextPage
+import java.time.LocalDate
 
-val userLens = Path.nonBlankString().map(::User, User::name).of("user")
-val listNameLens =
-    Path.nonBlankString().map({ ListName.fromUntrusted(it) ?: error("invalid list name") }, ListName::name).of("list")
+class Zettai(val hub: ZettaiHub) : HttpHandler {
+    override fun invoke(request: Request): Response = httpHandler(request)
 
-class Zettai(private val hub: ZettaiHub) : HttpHandler {
-    private val routes = routes(
-        "/todo/{user}/{list}" bind GET to ::getToDoList,
-        "/todo/{user}/{list}" bind POST to ::addNewItem,
+    val httpHandler = routes(
+        "/ping" bind GET to { Response(OK) },
+        "/todo/{user}/{listname}" bind GET to ::getToDoList,
+        "/todo/{user}/{listname}" bind POST to ::addNewItem,
         "/todo/{user}" bind GET to ::getAllLists,
-        "/todo/{user}" bind POST to ::createNewList
-    ).withFilter(ServerFilters.CatchAll().then(ServerFilters.CatchLensFailure()))
+        "/todo/{user}" bind POST to ::createNewList,
+        "/whatsnext/{user}" bind GET to ::whatsNext
+    )
 
-    override fun invoke(request: Request): Response = routes(request)
+    private fun createNewList(request: Request): Response {
+        val user = request.extractUser().recover { User("anonymous") }
+        val listName = request.form("listname")
+            ?.let(ListName.Companion::fromUntrusted)
+            ?: return Response(BAD_REQUEST).body("missing listname in form")
 
-    private fun getToDoList(request: Request): Response {
-        val user = userLens(request)
-        val listName = listNameLens(request)
+        return hub.handle(CreateToDoList(user, listName))
+            .transform { Response(SEE_OTHER).header("Location", "/todo/${user.name}") }
+            .recover { Response(UNPROCESSABLE_ENTITY).body(it.msg) }
 
-        return hub.getList(user, listName)
-            .transform { toDoList -> renderPage(toDoList) }
-            .transform { renderPage -> createResponse(renderPage) }
-            .recover { Response(NOT_FOUND) }
     }
 
     private fun addNewItem(request: Request): Response {
-        val user = userLens(request)
-        val listName = listNameLens(request)
-        val item = request.form("itemname")?.let(::ToDoItem) ?: return Response(BAD_REQUEST)
+        val user = request.extractUser().recover { User("anonymous") }
+        val listName = request.extractListName().onFailure { return Response(BAD_REQUEST).body(it.msg) }
+        val item = request.extractItem().onFailure { return Response(BAD_REQUEST).body(it.msg) }
 
-        return AddToDoItem(user, listName, item)
-            .let(hub::handle)
-            .transform { Response(SEE_OTHER).with(Header.LOCATION of Uri.of("/todo/${user.name}/${listName.name}")) }
-            .recover { Response(BAD_REQUEST) }
+        return hub.handle(AddToDoItem(user, listName, item))
+            .transform { Response(SEE_OTHER).header("Location", "/todo/${user.name}/${listName.name}") }
+            .recover { Response(UNPROCESSABLE_ENTITY).body(it.msg) }
     }
 
-    private fun getAllLists(request: Request): Response {
-        val user = userLens(request)
+    private fun getToDoList(request: Request): Response {
+        val user = request.extractUser().onFailure { return Response(BAD_REQUEST).body(it.msg) }
+        val listName = request.extractListName().onFailure { return Response(BAD_REQUEST).body(it.msg) }
+
+        return hub.getList(user, listName)
+            .transform { renderListPage(user, it) }
+            .transform(::toResponse)
+            .recover { Response(NOT_FOUND).body(it.msg) }
+    }
+
+    fun toResponse(htmlPage: HtmlPage): Response =
+        Response(OK).body(htmlPage.raw)
+
+    private fun getAllLists(req: Request): Response {
+        val user = req.extractUser().onFailure { return Response(BAD_REQUEST).body(it.msg) }
+
         return hub.getLists(user)
             .transform { renderListsPage(user, it) }
-            .transform { createResponse(it) }
-            .recover { Response(BAD_REQUEST) }
+            .transform(::toResponse)
+            .recover { Response(NOT_FOUND).body(it.msg) }
     }
 
-    private fun createNewList(request: Request): Response {
-        val user = userLens(request)
-        val listName = request.extractListNameFromForm("listname")
+    private fun whatsNext(req: Request): Response {
+        val user = req.extractUser().onFailure { return Response(BAD_REQUEST).body(it.msg) }
 
-        return listName
-            ?.let { CreateToDoList(user, it) }
-            ?.let(hub::handle)
-            ?.let { Response(SEE_OTHER).with(Header.LOCATION of Uri.of("/todo/${user.name}")) }
-            ?: Response(BAD_REQUEST)
+        return hub.whatsNext(user)
+            .transform { renderWhatsNextPage(user, it) }
+            .transform(::toResponse)
+            .recover { Response(NOT_FOUND).body(it.msg) }
     }
 
-    private fun fetchListContent(listId: Pair<User, ListName>): ToDoList =
-        hub.getList(listId.first, listId.second)
-            .recover { error("List unknown") }
+    private fun Request.extractUser(): ZettaiOutcome<User> =
+        path("user")
+            .failIfNull(InvalidRequestError("User not present"))
+            .transform(::User)
 
-    private fun createResponse(html: HtmlPage): Response = Response(OK).body(html.raw)
+    private fun Request.extractListName(): ZettaiOutcome<ListName> =
+        path("listname")
+            .orEmpty()
+            .let(ListName.Companion::fromUntrusted)
+            .failIfNull(InvalidRequestError("Invalid list name in path: $this"))
+
+    private fun Request.extractItem(): ZettaiOutcome<ToDoItem> {
+        val duedate = tryOrNull { LocalDate.parse(form("itemdue")) }
+        return form("itemname")
+            .failIfNull(InvalidRequestError("User not present"))
+            .transform { ToDoItem(it, duedate) }
+    }
 }
-
-private fun Request.extractListNameFromForm(formName: String): ListName? =
-    form(formName)?.let(ListName::fromUntrusted)

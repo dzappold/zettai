@@ -2,9 +2,10 @@ import commands.ToDoListCommand
 import java.time.LocalDate
 
 interface ZettaiHub {
+    fun handle(command: ToDoListCommand): ZettaiOutcome<ToDoListCommand>
     fun getList(user: User, listName: ListName): ZettaiOutcome<ToDoList>
     fun getLists(user: User): ZettaiOutcome<List<ListName>>
-    fun handle(command: ToDoListCommand): ZettaiOutcome<ToDoListCommand>
+    fun whatsNext(user: User): ZettaiOutcome<List<ToDoItem>>
 }
 
 data class ToDoList(val listName: ListName, val items: List<ToDoItem>)

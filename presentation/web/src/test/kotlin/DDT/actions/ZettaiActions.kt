@@ -20,6 +20,7 @@ interface ZettaiActions : DdtActions<DdtProtocol> {
     fun getToDoList(user: User, listName: ListName): ZettaiOutcome<ToDoList>
     fun addListItem(user: User, listName: ListName, item: ToDoItem)
     fun allUserLists(user: User): ZettaiOutcome<List<ListName>>
+    fun whatsNext(user: User): ZettaiOutcome<List<ToDoItem>>
 }
 
 typealias ZettaiDDT = DomainDrivenTest<ZettaiActions>

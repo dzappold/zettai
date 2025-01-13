@@ -3,9 +3,8 @@ package ui
 import ListName
 import User
 
-fun renderListsPage(user: User, lists: List<ListName>): HtmlPage =
-    HtmlPage(
-        """
+fun renderListsPage(user: User, lists: List<ListName>): HtmlPage = HtmlPage(
+    """
         <!DOCTYPE html>
         <html>
         <head>
@@ -43,7 +42,7 @@ fun renderListsPage(user: User, lists: List<ListName>): HtmlPage =
         </body>
         </html>
     """.trimIndent()
-    )
+)
 
 private fun List<ListName>.render(user: User): String =
     joinToString(separator = "") { renderListName(user, it) }

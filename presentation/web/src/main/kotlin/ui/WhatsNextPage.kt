@@ -1,9 +1,9 @@
 package ui
 
-import ToDoList
+import ToDoItem
 import User
 
-fun renderListPage(user: User, todoList: ToDoList): HtmlPage =
+fun renderWhatsNextPage(user: User, items: List<ToDoItem>): HtmlPage =
     HtmlPage(
         """
         <!DOCTYPE html>
@@ -17,7 +17,7 @@ fun renderListPage(user: User, todoList: ToDoList): HtmlPage =
         <div class="row justify-content-md-center"> 
         <div class="col-md-center">
             <h1>Zettai</h1>
-            <h2>Things to do for ${todoList.listName.name}</h2>
+            <h2>What's Next for ${user.name}</h2>
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -27,19 +27,9 @@ fun renderListPage(user: User, todoList: ToDoList): HtmlPage =
                     </tr>
                 </thead>
                 <tbody>
-                ${todoList.items.renderItems()}
+                ${items.renderItems()}
                 </tbody>
             </table>
-            
-            <hr>
-            <h5>Create a new thing to do</h5>
-            <form action="/todo/${user.name}/${todoList.listName.name}" method="post">
-              <label for="itemname">Description:</label>
-              <input type="text" name="itemname" id="itemname">
-              <label for="itemdue">Due Date:</label>
-              <input type="date" name="itemdue" id="itemdue">
-              <input type="submit" value="Submit">
-            </form>
             </div>
         </div>
         </div>
