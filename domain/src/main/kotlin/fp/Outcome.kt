@@ -6,9 +6,22 @@ sealed class Outcome<out E : OutcomeError, out T> {
         is Failure -> this
     }
 
+    fun <F : OutcomeError> transformFailure(f: (E) -> F): Outcome<F, T> =
+        when (this) {
+            is Success -> this
+            is Failure -> f(error).asFailure()
+        }
+
     companion object {
         fun <T, U, E : OutcomeError> lift(f: (T) -> U): (Outcome<E, T>) -> Outcome<E, U> =
             { o -> o.transform { f(it) } }
+
+        fun <T> tryOrFail(block: () -> T): Outcome<ThrowableError, T> =
+            try {
+                block().asSuccess()
+            } catch (t: Throwable) {
+                ThrowableError(t).asFailure()
+            }
     }
 }
 
@@ -42,3 +55,8 @@ fun <T : Any, E : OutcomeError> T?.failIfNull(error: E): Outcome<E, T> = this?.a
 
 fun <C : Collection<*>, E : OutcomeError> C.failIfEmpty(error: E): Outcome<E, C> =
     if (isEmpty()) error.asFailure() else this.asSuccess()
+
+data class ThrowableError(val t: Throwable) : OutcomeError {
+    override val msg: String
+        get() = t.message.orEmpty()
+}

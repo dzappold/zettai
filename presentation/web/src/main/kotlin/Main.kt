@@ -14,7 +14,14 @@ fun main() {
 
     val hub = ToDoListHub(queryHandler, commandHandler, eventStore)
 
-    Zettai(hub).asServer(Jetty(8080)).start()
+    Zettai(hub)
+        .asServer(Jetty(8080))
+        .start()
+        .also { server ->
+            Runtime
+                .getRuntime()
+                .addShutdownHook(Thread { server.stop() })
+        }
 
     println("Server started at http://localhost:8080/todo/uberto")
 }

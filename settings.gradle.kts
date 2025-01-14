@@ -9,7 +9,7 @@ include("domain")
 }
 
 "infrastructure".apply {
-    includeModule("example-adapter")
+    includeModule("event-store")
 }
 
 fun String.includeModule(name: String) {

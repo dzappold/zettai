@@ -1,0 +1,19 @@
+services:
+  database:
+    image: postgres:13.18-bookworm
+    env_file:
+      - postgresql.env
+    ports:
+      - "6432:5432"
+#    volumes:
+#      - pg-volume:/var/lib/postgresql/data
+
+  db-test:
+    image: postgres:13.18-bookworm
+    env_file:
+      - postgresql-test.env
+    ports:
+      - "6433:5432"
+
+volumes:
+  pg-volume: #

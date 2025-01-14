@@ -5,13 +5,11 @@ import ToDoListCommandError
 import events.ListCreated
 import events.ToDoListEventStore
 import events.ToDoListEventStreamerInMemory
-import fp.Outcome
-import fp.OutcomeError
-import fp.onFailure
+import expectFailure
+import expectSuccess
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.types.shouldBeInstanceOf
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.fail
 import randomItem
 import randomListName
 import randomUser
@@ -47,11 +45,3 @@ class ToDoListCommandsShould {
 
 
 }
-
-fun <E : OutcomeError, T> Outcome<E, T>.expectSuccess(): T =
-    onFailure { error -> fail { "$this expected success but was $error" } }
-
-
-fun <E : OutcomeError, T> Outcome<E, T>.expectFailure(): E =
-    onFailure { error -> return error }
-        .let { fail { "Expected failure but was $it" } }

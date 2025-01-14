@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":infrastructure:example-adapter"))
+    implementation(project(":infrastructure:event-store"))
     implementation(project(":domain"))
 
     implementation(libs.bundles.http4k)

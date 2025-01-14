@@ -4,4 +4,5 @@ plugins {
 
 dependencies {
     api(libs.result4k)
+    testFixturesApi(libs.junit.api)
 }
