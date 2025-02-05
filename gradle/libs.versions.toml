@@ -2,7 +2,7 @@
 ben-manes-version = "0.52.0"
 dependency-check-version = "12.0.2"
 detekt-version = "1.23.7"
-exposed-version = "0.58.0"
+exposed-version = "0.59.0"
 foojay-version = "0.8.0"
 forkhandles-version = "2.20.0.0"
 http4k-version = "5.46.0.0"
