@@ -1,7 +1,7 @@
 [versions]
 ben-manes-version = "0.52.0"
 dependency-check-version = "12.1.0"
-detekt-version = "1.23.7"
+detekt-version = "1.23.8"
 exposed-version = "0.59.0"
 foojay-version = "0.8.0"
 forkhandles-version = "2.20.0.0"
