@@ -1,6 +1,6 @@
 [versions]
 ben-manes-version = "0.52.0"
-dependency-check-version = "12.1.0"
+dependency-check-version = "12.1.1"
 detekt-version = "1.23.8"
 exposed-version = "0.60.0"
 foojay-version = "0.8.0"
