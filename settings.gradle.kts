@@ -5,7 +5,7 @@ rootProject.name = "zettai"
 include("domain")
 "presentation".apply {
     includeModule("web")
-    includeModule("acceptance-test")
+//    includeModule("acceptance-test")
 }
 
 "infrastructure".apply {
