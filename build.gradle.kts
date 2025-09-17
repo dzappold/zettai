@@ -13,7 +13,7 @@ plugins {
     alias(libs.plugins.dependency.check)
 
     id("com.github.jk1.dependency-license-report") version "2.9"
-    id("com.autonomousapps.dependency-analysis") version "3.0.3"
+    id("com.autonomousapps.dependency-analysis") version "3.0.4"
 }
 
 dependencies {
