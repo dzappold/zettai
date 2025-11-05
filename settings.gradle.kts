@@ -19,6 +19,7 @@ fun String.includeModule(name: String) {
 }
 
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         gradlePluginPortal()
         mavenCentral()

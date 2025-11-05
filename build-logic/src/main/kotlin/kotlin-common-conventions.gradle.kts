@@ -3,7 +3,7 @@ import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
-import org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -37,6 +37,14 @@ dependencies {
 configurations.all {
     exclude(group = "junit", module = "junit")
 }
+
+//testing {
+//    suites {
+//        val test by getting(JvmTestSuite::class) {
+//
+//        }
+//    }
+//}
 
 tasks {
     withType<Test>().configureEach {
@@ -81,7 +89,7 @@ tasks {
                 )
             )
             jvmTarget.set(JVM_21)
-            languageVersion.set(KOTLIN_2_1)
+            languageVersion.set(KotlinVersion.KOTLIN_2_3)
         }
     }
 }

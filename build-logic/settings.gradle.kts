@@ -11,7 +11,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "buildSrc"
+rootProject.name = "build-logic"
 
 pluginManagement {
     repositories {
@@ -37,5 +37,6 @@ pluginManagement {
 
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention")
+    //id("dev.panuszewski.typesafe-conventions") version "0.5.1"
 }
 
