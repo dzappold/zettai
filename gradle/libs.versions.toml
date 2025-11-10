@@ -1,6 +1,8 @@
 [versions]
 ben-manes-version = "0.53.0"
+dependency-analysis-version = "3.4.1"
 dependency-check-version = "12.1.9"
+dependency-license-report-version = "3.0.1"
 detekt-version = "1.23.8"
 exposed-version = "0.61.0"
 foojay-version = "1.0.0"
@@ -13,13 +15,18 @@ kotest-version = "6.0.7"
 kotlin-version = "2.2.21"
 mockk-version = "1.14.6"
 pesticide-version = "1.6.6"
+pitest = "1.15.0"
 postgresql-version = "42.7.8"
 
 [libraries]
+detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt-version" }
 exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed-version" }
+kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin-version" }
 exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed-version" }
 exposed-json = { module = "org.jetbrains.exposed:exposed-json", version.ref = "exposed-version" }
 exposed-java-time = { module = "org.jetbrains.exposed:exposed-java-time", version.ref = "exposed-version" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-version" }
+#pitest-gradle-plugin = { module = "info.solidsoft.gradle.pitest:gradle-pitest-plugin", version.ref = "pitest" }
 http4k-api-openapi = { module = "org.http4k:http4k-api-openapi", version.ref = "http4k-version" }
 http4k-api-ui-redoc = { module = "org.http4k:http4k-api-ui-redoc", version.ref = "http4k-version" }
 http4k-client-apache = { module = "org.http4k:http4k-client-apache", version.ref = "http4k-version" }
@@ -56,9 +63,13 @@ result4k-kotest = { module = "dev.forkhandles:result4k-kotest", version.ref = "f
 
 [plugins]
 ben-manes = { id = "com.github.ben-manes.versions", version.ref = "ben-manes-version" }
+dependency-analysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependency-analysis-version" }
 dependency-check = { id = "org.owasp.dependencycheck", version.ref = "dependency-check-version" }
+dependency-license-report = { id = "com.github.jk1.dependency-license-report", version.ref = "dependency-license-report-version" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt-version" }
+foojay-resolver = { id = "org.gradle.toolchains.foojay-resolver-convention", version.ref = "foojay-version" }
 kotlin-gradle = { id = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-version" }
+#pitest = { id = "info.solidsoft.pitest", version.ref = "pitest" }
 
 [bundles]
 http4k = [

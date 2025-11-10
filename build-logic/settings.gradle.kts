@@ -1,3 +1,5 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 dependencyResolutionManagement {
     // Reuse version catalog from the main build.
     versionCatalogs {
@@ -19,24 +21,12 @@ pluginManagement {
         mavenCentral()
         google()
     }
-
-    val kotlinVersion: String by settings
-    val detektVersion: String by settings
-    val foojayVersion: String by settings
-
-    resolutionStrategy {
-        eachPlugin {
-            when (requested.id.id) {
-                "org.jetbrains.kotlin.jvm" -> useVersion(kotlinVersion)
-                "io.gitlab.arturbosch.detekt" -> useVersion(detektVersion)
-                "org.gradle.toolchains.foojay-resolver-convention" -> useVersion(foojayVersion)
-            }
-        }
-    }
 }
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention")
+    val foojayVersion: String by settings
+
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
     //id("dev.panuszewski.typesafe-conventions") version "0.5.1"
 }
 

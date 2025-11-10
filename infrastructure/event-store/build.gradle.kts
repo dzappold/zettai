@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":domain"))
+    implementation(projects.domain)
 
     implementation(libs.exposed.core)
     implementation(libs.exposed.jdbc)
@@ -12,5 +12,5 @@ dependencies {
     implementation(libs.postgresql)
     implementation(libs.klaxon)
 
-    testImplementation(testFixtures(project(":domain")))
+    testImplementation(testFixtures(projects.domain))
 }

@@ -4,14 +4,19 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":infrastructure:event-store"))
-    implementation(project(":domain"))
+    implementation(projects.infrastructure.eventStore)
+    implementation(projects.domain)
 
     implementation(libs.bundles.http4k)
     implementation(libs.http4k.connect.storage.redis)
+
+    constraints {
+        implementation(libs.exposed.json)
+    }
+
     testImplementation(libs.pesticide)
 
-    testImplementation(testFixtures(project(":domain")))
+    testImplementation(testFixtures(projects.domain))
 
     testImplementation(libs.jsoup)
     testImplementation(libs.bundles.http4k.testing)
@@ -20,6 +25,6 @@ dependencies {
 }
 
 application {
-    applicationName = "Web"
+    applicationName = "Zettai"
     mainClass.set("MainKt")
 }

@@ -13,12 +13,12 @@ plugins {
     alias(libs.plugins.dependency.check)
 
     id("com.github.jk1.dependency-license-report") version "3.0.1"
-    id("com.autonomousapps.dependency-analysis") version "3.5.1"
+    id("com.autonomousapps.dependency-analysis") version "3.5.0"
 }
 
 dependencies {
-    testReportAggregation(project(":domain"))
-    jacocoAggregation(project(":domain"))
+    testReportAggregation(projects.domain)
+    jacocoAggregation(projects.domain)
 }
 
 tasks {
@@ -43,3 +43,6 @@ licenseReport {
     filters = arrayOf<DependencyFilter>(LicenseBundleNormalizer())
     allowedLicensesFile = file("$projectDir/config/allowed-licenses.json")
 }
+
+//val sha by providers.of("git rev-parse --short HEAD".runCommand()).map { it.trim() }
+//tasks.register("printSha") { doLast { println(sha.get()) } }

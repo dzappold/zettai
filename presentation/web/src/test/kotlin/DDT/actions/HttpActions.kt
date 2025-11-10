@@ -37,7 +37,7 @@ import java.time.Duration
 
 data class HttpActions(val env: String = "local") : ZettaiActions {
 
-    val zettaiPort = 8000 //different from the one in main
+    val zettaiPort = 6666 //different from the one in main
 
     val client = OkHttp()
 
