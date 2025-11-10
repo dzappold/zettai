@@ -72,6 +72,7 @@ kotlin-gradle = { id = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref 
 #pitest = { id = "info.solidsoft.pitest", version.ref = "pitest" }
 
 [bundles]
+exposed = ["exposed-core", "exposed-jdbc", "exposed-json", "exposed-java-time"]
 http4k = [
     "http4k-api-openapi",
     "http4k-api-ui-redoc",
