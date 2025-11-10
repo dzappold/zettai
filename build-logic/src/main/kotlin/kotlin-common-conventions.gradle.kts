@@ -56,8 +56,7 @@ tasks {
                 FAILED
             )
         }
-        outputs.upToDateWhen { false }
-        finalizedBy(jacocoTestReport) // report is always generated after tests run
+        finalizedBy(jacocoTestReport)
     }
 
     withType<JacocoReport>().configureEach {
