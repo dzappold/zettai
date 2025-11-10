@@ -5,7 +5,6 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.gradle.testing.base.TestingExtension
 
 plugins {
     java
@@ -44,14 +43,14 @@ testing {
         val test by getting(JvmTestSuite::class) {
             useJUnitJupiter()
         }
-        
+
         val acceptanceTest by registering(JvmTestSuite::class) {
             useJUnitJupiter()
-            
+
             dependencies {
                 implementation(project())
             }
-            
+
             targets {
                 all {
                     testTask.configure {
