@@ -5,6 +5,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.testing.base.TestingExtension
 
 plugins {
     java
@@ -38,17 +39,32 @@ configurations.all {
     exclude(group = "junit", module = "junit")
 }
 
-//testing {
-//    suites {
-//        val test by getting(JvmTestSuite::class) {
-//
-//        }
-//    }
-//}
+testing {
+    suites {
+        val test by getting(JvmTestSuite::class) {
+            useJUnitJupiter()
+        }
+        
+        val acceptanceTest by registering(JvmTestSuite::class) {
+            useJUnitJupiter()
+            
+            dependencies {
+                implementation(project())
+            }
+            
+            targets {
+                all {
+                    testTask.configure {
+                        shouldRunAfter(test)
+                    }
+                }
+            }
+        }
+    }
+}
 
 tasks {
     withType<Test>().configureEach {
-        useJUnitPlatform()
         testLogging {
             events(
 //                PASSED,
