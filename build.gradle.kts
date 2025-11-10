@@ -18,7 +18,11 @@ plugins {
 
 dependencies {
     testReportAggregation(projects.domain)
+    testReportAggregation(projects.infrastructure.eventStore)
+    testReportAggregation(projects.presentation.web)
     jacocoAggregation(projects.domain)
+    jacocoAggregation(projects.infrastructure.eventStore)
+    jacocoAggregation(projects.presentation.web)
 }
 
 tasks {
