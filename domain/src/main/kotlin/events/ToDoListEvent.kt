@@ -1,10 +1,10 @@
-package events
+package zettai.events
 
-import ListName
-import ToDoItem
-import User
-import commands.EntityId
-import commands.ToDoListId
+import zettai.ListName
+import zettai.ToDoItem
+import zettai.User
+import zettai.commands.EntityId
+import zettai.commands.ToDoListId
 import java.time.Instant
 
 interface EntityEvent {

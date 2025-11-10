@@ -1,18 +1,18 @@
-package commands
+package zettai.commands
 
-import InconsistentStateError
-import ToDoListCommandError
-import events.ListCreated
-import events.ToDoListEventStore
-import events.ToDoListEventStreamerInMemory
-import expectFailure
-import expectSuccess
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.types.shouldBeInstanceOf
 import org.junit.jupiter.api.Test
-import randomItem
-import randomListName
-import randomUser
+import zettai.InconsistentStateError
+import zettai.ToDoListCommandError
+import zettai.events.ListCreated
+import zettai.events.ToDoListEventStore
+import zettai.events.ToDoListEventStreamerInMemory
+import zettai.expectFailure
+import zettai.expectSuccess
+import zettai.randomItem
+import zettai.randomListName
+import zettai.randomUser
 
 class ToDoListCommandsShould {
     private val streamer = ToDoListEventStreamerInMemory()

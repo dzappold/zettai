@@ -1,15 +1,15 @@
-package fp
+package zettai.fp
 
-import events.EntityEvent
-import events.EventSeq
-import projections.CreateRow
-import projections.DeleteRow
-import projections.DeltaRow
-import projections.FetchStoredEvents
-import projections.ProjectEvents
-import projections.Projection
-import projections.RowId
-import projections.UpdateRow
+import zettai.events.EntityEvent
+import zettai.events.EventSeq
+import zettai.projections.CreateRow
+import zettai.projections.DeleteRow
+import zettai.projections.DeltaRow
+import zettai.projections.FetchStoredEvents
+import zettai.projections.ProjectEvents
+import zettai.projections.Projection
+import zettai.projections.RowId
+import zettai.projections.UpdateRow
 import java.util.concurrent.atomic.AtomicReference
 
 interface InMemoryProjection<R : Any, E : EntityEvent> : Projection<R, E> {

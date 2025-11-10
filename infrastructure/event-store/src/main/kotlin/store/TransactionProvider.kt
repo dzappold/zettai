@@ -1,8 +1,5 @@
-package store
+package zettai.store
 
-import fp.Outcome
-import fp.asFailure
-import fp.asSuccess
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.Expression
@@ -20,6 +17,9 @@ import org.jetbrains.exposed.sql.statements.StatementType
 import org.jetbrains.exposed.sql.statements.UpdateStatement
 import org.jetbrains.exposed.sql.statements.api.PreparedStatementApi
 import org.jetbrains.exposed.sql.transactions.inTopLevelTransaction
+import zettai.fp.Outcome
+import zettai.fp.asFailure
+import zettai.fp.asSuccess
 import java.sql.ResultSet
 import javax.sql.DataSource
 

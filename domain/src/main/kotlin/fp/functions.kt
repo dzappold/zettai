@@ -1,4 +1,4 @@
-package fp
+package zettai.fp
 
 fun <T, R> liftList(f: (T) -> R): (List<T>) -> List<R> =
     { c: List<T> -> c.map(f) }

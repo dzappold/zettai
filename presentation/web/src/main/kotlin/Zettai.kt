@@ -1,9 +1,5 @@
-import commands.AddToDoItem
-import commands.CreateToDoList
-import fp.failIfNull
-import fp.onFailure
-import fp.recover
-import fp.tryOrNull
+package zettai
+
 import org.http4k.core.HttpHandler
 import org.http4k.core.Method.GET
 import org.http4k.core.Method.POST
@@ -18,10 +14,16 @@ import org.http4k.core.body.form
 import org.http4k.routing.bind
 import org.http4k.routing.path
 import org.http4k.routing.routes
-import ui.HtmlPage
-import ui.renderListPage
-import ui.renderListsPage
-import ui.renderWhatsNextPage
+import zettai.commands.AddToDoItem
+import zettai.commands.CreateToDoList
+import zettai.fp.failIfNull
+import zettai.fp.onFailure
+import zettai.fp.recover
+import zettai.fp.tryOrNull
+import zettai.ui.HtmlPage
+import zettai.ui.renderListPage
+import zettai.ui.renderListsPage
+import zettai.ui.renderWhatsNextPage
 import java.time.LocalDate
 
 class Zettai(val hub: ZettaiHub) : HttpHandler {

@@ -1,18 +1,18 @@
-package commands
+package zettai.commands
 
-import InconsistentStateError
-import ToDoListCommandError
-import ZettaiOutcome
-import events.ActiveToDoList
-import events.ClosedToDoList
-import events.InitialState
-import events.ItemAdded
-import events.ListCreated
-import events.OnHoldToDoList
-import events.ToDoListEvent
-import events.ToDoListRetriever
-import fp.asFailure
-import fp.asSuccess
+import zettai.InconsistentStateError
+import zettai.ToDoListCommandError
+import zettai.ZettaiOutcome
+import zettai.events.ActiveToDoList
+import zettai.events.ClosedToDoList
+import zettai.events.InitialState
+import zettai.events.ItemAdded
+import zettai.events.ListCreated
+import zettai.events.OnHoldToDoList
+import zettai.events.ToDoListEvent
+import zettai.events.ToDoListRetriever
+import zettai.fp.asFailure
+import zettai.fp.asSuccess
 
 typealias CommandHandler<CMD, EVENT> = (CMD) -> ZettaiOutcome<List<EVENT>>
 typealias ToDoListCommandOutcome = ZettaiOutcome<List<ToDoListEvent>>

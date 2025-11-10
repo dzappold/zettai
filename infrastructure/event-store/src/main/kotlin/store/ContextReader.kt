@@ -1,11 +1,11 @@
-package store
+package zettai.store
 
-import fp.Failure
-import fp.Outcome
-import fp.OutcomeError
-import fp.Success
-import fp.asSuccess
 import org.jetbrains.exposed.sql.Transaction
+import zettai.fp.Failure
+import zettai.fp.Outcome
+import zettai.fp.OutcomeError
+import zettai.fp.Success
+import zettai.fp.asSuccess
 
 data class ContextReader<CTX, out T>(val runWith: (CTX) -> T) {
 

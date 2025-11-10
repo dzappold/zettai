@@ -1,8 +1,8 @@
-package projections
+package zettai.projections
 
-import events.EntityEvent
-import events.EventSeq
-import events.StoredEvent
+import zettai.events.EntityEvent
+import zettai.events.EventSeq
+import zettai.events.StoredEvent
 
 typealias FetchStoredEvents<E> = (EventSeq) -> Sequence<StoredEvent<E>>
 typealias ProjectEvents<R, E> = (E) -> List<DeltaRow<R>>

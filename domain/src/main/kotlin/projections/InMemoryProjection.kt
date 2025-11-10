@@ -1,7 +1,7 @@
-package projections
+package zettai.projections
 
-import events.EntityEvent
-import events.EventSeq
+import zettai.events.EntityEvent
+import zettai.events.EventSeq
 import java.util.concurrent.atomic.AtomicReference
 
 interface InMemoryProjection<R : Any, E : EntityEvent> : Projection<R, E> {

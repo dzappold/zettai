@@ -1,8 +1,10 @@
-import commands.AddToDoItem
-import commands.CreateToDoList
+package zettai
+
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import org.junit.jupiter.api.Test
+import zettai.commands.AddToDoItem
+import zettai.commands.CreateToDoList
 
 class ToDoListHubShould {
     val hub = prepareToDoListHubForTests()

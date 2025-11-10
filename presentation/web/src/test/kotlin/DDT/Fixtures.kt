@@ -1,7 +1,7 @@
 package DDT
 
-import Zettai
-import prepareToDoListHubForTests
+import zettai.Zettai
+import zettai.prepareToDoListHubForTests
 
 fun prepareZettaiForTests(): Zettai =
     Zettai(prepareToDoListHubForTests())

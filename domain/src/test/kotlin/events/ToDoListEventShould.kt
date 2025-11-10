@@ -1,11 +1,11 @@
-package events
+package zettai.events
 
-import commands.ToDoListId
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
-import randomItem
-import randomListName
-import randomUser
+import zettai.commands.ToDoListId
+import zettai.randomItem
+import zettai.randomListName
+import zettai.randomUser
 
 class ToDoListEventShould {
     val id = ToDoListId.mint()

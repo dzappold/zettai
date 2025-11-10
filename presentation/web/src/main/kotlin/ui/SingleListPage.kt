@@ -1,7 +1,7 @@
-package ui
+package zettai.ui
 
-import ToDoList
-import User
+import zettai.ToDoList
+import zettai.User
 
 fun renderListPage(user: User, todoList: ToDoList): HtmlPage =
     HtmlPage(

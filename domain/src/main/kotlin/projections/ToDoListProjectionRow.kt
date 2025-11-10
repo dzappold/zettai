@@ -1,8 +1,8 @@
-package projections
+package zettai.projections
 
-import ToDoItem
-import ToDoList
-import User
+import zettai.ToDoItem
+import zettai.ToDoList
+import zettai.User
 
 data class ToDoListProjectionRow(val user: User, val active: Boolean, val list: ToDoList) {
     fun addItem(item: ToDoItem): ToDoListProjectionRow =

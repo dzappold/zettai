@@ -1,6 +1,6 @@
-package projections
+package zettai.projections
 
-import events.ToDoListEvent
+import zettai.events.ToDoListEvent
 
 class ToDoListQueryRunner(eventFetcher: FetchStoredEvents<ToDoListEvent>) : QueryRunner<ToDoListQueryRunner> {
     internal val listProjection = ToDoListProjection(eventFetcher)

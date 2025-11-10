@@ -1,11 +1,13 @@
-import commands.ToDoListCommandHandler
-import events.ToDoListEventStore
-import events.ToDoListEventStreamerInMemory
-import fp.Outcome
-import fp.OutcomeError
-import fp.onFailure
+package zettai
+
 import org.junit.jupiter.api.Assertions.fail
-import projections.ToDoListQueryRunner
+import zettai.commands.ToDoListCommandHandler
+import zettai.events.ToDoListEventStore
+import zettai.events.ToDoListEventStreamerInMemory
+import zettai.fp.Outcome
+import zettai.fp.OutcomeError
+import zettai.fp.onFailure
+import zettai.projections.ToDoListQueryRunner
 
 fun prepareToDoListHubForTests(): ToDoListHub {
     val streamer = ToDoListEventStreamerInMemory()

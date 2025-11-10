@@ -2,22 +2,22 @@ package DDT.actions
 
 import DDT.actors.ToDoListOwner
 import DDT.actors.expectSuccess
-import ListName
-import ToDoItem
-import ToDoList
-import ToDoListHub
-import User
-import ZettaiOutcome
 import com.ubertob.pesticide.core.DomainOnly
 import com.ubertob.pesticide.core.Ready
-import commands.AddToDoItem
-import commands.CreateToDoList
-import commands.ToDoListCommandHandler
-import events.ToDoListEventStore
-import events.ToDoListEventStreamerInMemory
-import projections.ToDoListQueryRunner
 import strikt.api.expectThat
 import strikt.assertions.hasSize
+import zettai.ListName
+import zettai.ToDoItem
+import zettai.ToDoList
+import zettai.ToDoListHub
+import zettai.User
+import zettai.ZettaiOutcome
+import zettai.commands.AddToDoItem
+import zettai.commands.CreateToDoList
+import zettai.commands.ToDoListCommandHandler
+import zettai.events.ToDoListEventStore
+import zettai.events.ToDoListEventStreamerInMemory
+import zettai.projections.ToDoListQueryRunner
 
 class DomainOnlyActions : ZettaiActions {
     override val protocol = DomainOnly

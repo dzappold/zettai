@@ -1,7 +1,7 @@
-package ui
+package zettai.ui
 
-import ToDoItem
-import User
+import zettai.ToDoItem
+import zettai.User
 
 fun renderWhatsNextPage(user: User, items: List<ToDoItem>): HtmlPage =
     HtmlPage(

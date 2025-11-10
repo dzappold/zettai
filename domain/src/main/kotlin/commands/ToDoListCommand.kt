@@ -1,9 +1,9 @@
-package commands
+package zettai.commands
 
-import ListName
-import ToDoItem
-import User
-import projections.RowId
+import zettai.ListName
+import zettai.ToDoItem
+import zettai.User
+import zettai.projections.RowId
 import java.util.*
 
 data class EntityId(val raw: UUID) {

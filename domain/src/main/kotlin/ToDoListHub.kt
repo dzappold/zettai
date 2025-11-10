@@ -1,11 +1,13 @@
-import commands.ToDoListCommand
-import commands.ToDoListCommandHandler
-import events.EventPersister
-import events.ToDoListEvent
-import fp.failIfEmpty
-import fp.failIfNull
-import projections.ItemProjectionRow
-import projections.ToDoListQueryRunner
+package zettai
+
+import zettai.commands.ToDoListCommand
+import zettai.commands.ToDoListCommandHandler
+import zettai.events.EventPersister
+import zettai.events.ToDoListEvent
+import zettai.fp.failIfEmpty
+import zettai.fp.failIfNull
+import zettai.projections.ItemProjectionRow
+import zettai.projections.ToDoListQueryRunner
 
 class ToDoListHub(
     val queryRunner: ToDoListQueryRunner,

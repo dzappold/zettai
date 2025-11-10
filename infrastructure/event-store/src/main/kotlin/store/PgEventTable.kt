@@ -1,22 +1,23 @@
-package store
+package zettai.store
 
-import ZettaiOutcome
-import ZettaiParsingError
-import events.ItemAdded
-import events.ItemModified
-import events.ItemRemoved
-import events.ListClosed
-import events.ListCreated
-import events.ListPutOnHold
-import events.ListReleased
-import events.ToDoListEvent
-import fp.Outcome
-import fp.OutcomeError
-import fp.onFailure
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.CurrentTimestamp
 import org.jetbrains.exposed.sql.javatime.timestamp
 import org.jetbrains.exposed.sql.json.jsonb
+import zettai.ZettaiOutcome
+import zettai.ZettaiParsingError
+import zettai.commands.EntityId
+import zettai.events.ItemAdded
+import zettai.events.ItemModified
+import zettai.events.ItemRemoved
+import zettai.events.ListClosed
+import zettai.events.ListCreated
+import zettai.events.ListPutOnHold
+import zettai.events.ListReleased
+import zettai.events.ToDoListEvent
+import zettai.fp.Outcome
+import zettai.fp.OutcomeError
+import zettai.fp.onFailure
 
 data class PgEventTable(override val tableName: String) : Table(tableName) {
     val id = long("id").autoIncrement()
@@ -36,7 +37,7 @@ data class Parser<A, S>(val render: (A) -> S, val parse: (S) -> Outcome<OutcomeE
 }
 
 data class PgEvent(
-    val entityId: commands.EntityId,
+    val entityId: EntityId,
     val eventType: String,
     val jsonString: String,
     val version: Int,

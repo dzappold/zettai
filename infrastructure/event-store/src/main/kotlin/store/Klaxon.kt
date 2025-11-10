@@ -1,11 +1,11 @@
-package store
+package zettai.store
 
-import ListName
-import User
 import com.beust.klaxon.Converter
 import com.beust.klaxon.JsonValue
 import com.beust.klaxon.Klaxon
-import commands.EntityId
+import zettai.ListName
+import zettai.User
+import zettai.commands.EntityId
 import java.time.Instant
 import java.time.LocalDate
 import java.util.*

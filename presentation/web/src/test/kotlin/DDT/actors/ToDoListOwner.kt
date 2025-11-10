@@ -1,14 +1,7 @@
 package DDT.actors
 
 import DDT.actions.ZettaiActions
-import ListName
-import ToDoItem
-import ToDoList
-import User
 import com.ubertob.pesticide.core.DdtActor
-import fp.Outcome
-import fp.OutcomeError
-import fp.onFailure
 import org.junit.jupiter.api.fail
 import strikt.api.Assertion
 import strikt.api.expectThat
@@ -18,6 +11,13 @@ import strikt.assertions.doesNotContain
 import strikt.assertions.isEmpty
 import strikt.assertions.isEqualTo
 import strikt.assertions.map
+import zettai.ListName
+import zettai.ToDoItem
+import zettai.ToDoList
+import zettai.User
+import zettai.fp.Outcome
+import zettai.fp.OutcomeError
+import zettai.fp.onFailure
 import java.time.LocalDate
 
 data class ToDoListOwner(override val name: String) : DdtActor<ZettaiActions>() {

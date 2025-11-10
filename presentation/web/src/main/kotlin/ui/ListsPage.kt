@@ -1,7 +1,7 @@
-package ui
+package zettai.ui
 
-import ListName
-import User
+import zettai.ListName
+import zettai.User
 
 fun renderListsPage(user: User, lists: List<ListName>): HtmlPage = HtmlPage(
     """

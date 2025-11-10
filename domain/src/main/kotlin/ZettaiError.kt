@@ -1,7 +1,9 @@
-import commands.ToDoListCommand
-import events.ToDoListState
-import fp.Outcome
-import fp.OutcomeError
+package zettai
+
+import zettai.commands.ToDoListCommand
+import zettai.events.ToDoListState
+import zettai.fp.Outcome
+import zettai.fp.OutcomeError
 
 sealed class ZettaiError : OutcomeError
 data class InvalidRequestError(override val msg: String) : ZettaiError()

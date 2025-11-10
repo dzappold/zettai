@@ -1,9 +1,11 @@
-import commands.ToDoListCommandHandler
-import events.ToDoListEventStore
-import events.ToDoListEventStreamerInMemory
+package zettai
+
 import org.http4k.server.Jetty
 import org.http4k.server.asServer
-import projections.ToDoListQueryRunner
+import zettai.commands.ToDoListCommandHandler
+import zettai.events.ToDoListEventStore
+import zettai.events.ToDoListEventStreamerInMemory
+import zettai.projections.ToDoListQueryRunner
 
 fun main() {
     val streamer = ToDoListEventStreamerInMemory()

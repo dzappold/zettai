@@ -1,14 +1,19 @@
-import commands.ToDoListId
-import events.EventSeq
-import events.ItemAdded
-import events.ItemModified
-import events.ItemRemoved
-import events.ListCreated
-import events.StoredEvent
-import events.ToDoListEvent
+package zettai.projections
+
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
-import projections.ToDoListProjection
+import zettai.ToDoList
+import zettai.commands.ToDoListId
+import zettai.events.EventSeq
+import zettai.events.ItemAdded
+import zettai.events.ItemModified
+import zettai.events.ItemRemoved
+import zettai.events.ListCreated
+import zettai.events.StoredEvent
+import zettai.events.ToDoListEvent
+import zettai.randomItem
+import zettai.randomListName
+import zettai.randomUser
 
 class ToDoListProjectionShould {
     @Test

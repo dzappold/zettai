@@ -1,7 +1,7 @@
-package store
+package zettai.store
 
-import fp.Outcome
-import fp.OutcomeError
+import zettai.fp.Outcome
+import zettai.fp.OutcomeError
 
 interface ContextProvider<CTX> {
     fun <T> tryRun(reader: ContextReader<CTX, T>): Outcome<ContextError, T>

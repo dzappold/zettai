@@ -1,4 +1,4 @@
-package projections
+package zettai.projections
 
 data class ProjectionQuery<T>(val projections: Set<Projection<*, *>>, val runner: () -> T) {
 

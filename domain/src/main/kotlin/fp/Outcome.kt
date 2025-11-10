@@ -1,4 +1,4 @@
-package fp
+package zettai.fp
 
 sealed class Outcome<out E : OutcomeError, out T> {
     fun <U> transform(f: (T) -> U): Outcome<E, U> = when (this) {

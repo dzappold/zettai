@@ -1,11 +1,5 @@
-package store
+package zettai.store
 
-import User
-import commands.ToDoListId
-import events.EventSeq
-import events.ListCreated
-import events.StoredEvent
-import events.ToDoListEvent
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -15,7 +9,13 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.postgresql.ds.PGSimpleDataSource
-import randomToDoList
+import zettai.User
+import zettai.commands.ToDoListId
+import zettai.events.EventSeq
+import zettai.events.ListCreated
+import zettai.events.StoredEvent
+import zettai.events.ToDoListEvent
+import zettai.randomToDoList
 import javax.sql.DataSource
 
 class PgEventTableShould {

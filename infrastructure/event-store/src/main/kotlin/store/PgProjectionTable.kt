@@ -1,12 +1,12 @@
-package store
+package zettai.store
 
-import fp.Outcome
-import fp.ThrowableError
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.CurrentTimestamp
 import org.jetbrains.exposed.sql.javatime.timestamp
 import org.jetbrains.exposed.sql.json.jsonb
-import projections.ToDoListProjectionRow
+import zettai.fp.Outcome
+import zettai.fp.ThrowableError
+import zettai.projections.ToDoListProjectionRow
 
 data class PgProjectionTable<ROW : Any>(override val tableName: String, val parser: Parser<ROW, String>) : Table(tableName) {
     val id = varchar("id", 50)

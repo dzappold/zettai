@@ -1,4 +1,6 @@
-import commands.ToDoListCommand
+package zettai
+
+import zettai.commands.ToDoListCommand
 import java.time.LocalDate
 
 interface ZettaiHub {

@@ -1,21 +1,21 @@
-package store
+package zettai.store
 
-import commands.ToDoListId
-import events.ItemAdded
-import events.ItemModified
-import events.ItemRemoved
-import events.ListClosed
-import events.ListCreated
-import events.ListPutOnHold
-import events.ListReleased
-import events.ToDoListEvent
-import expectSuccess
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
-import randomItem
-import randomListName
-import randomText
-import randomUser
+import zettai.commands.ToDoListId
+import zettai.events.ItemAdded
+import zettai.events.ItemModified
+import zettai.events.ItemRemoved
+import zettai.events.ListClosed
+import zettai.events.ListCreated
+import zettai.events.ListPutOnHold
+import zettai.events.ListReleased
+import zettai.events.ToDoListEvent
+import zettai.expectSuccess
+import zettai.randomItem
+import zettai.randomListName
+import zettai.randomText
+import zettai.randomUser
 import java.time.Instant
 
 class ToDoListEventParserShould {

@@ -1,16 +1,16 @@
-package projections
+package zettai.projections
 
-import ToDoItem
-import ToDoStatus
-import commands.EntityId
-import events.ItemAdded
-import events.ItemModified
-import events.ItemRemoved
-import events.ListClosed
-import events.ListCreated
-import events.ListPutOnHold
-import events.ListReleased
-import events.ToDoListEvent
+import zettai.ToDoItem
+import zettai.ToDoStatus
+import zettai.commands.EntityId
+import zettai.events.ItemAdded
+import zettai.events.ItemModified
+import zettai.events.ItemRemoved
+import zettai.events.ListClosed
+import zettai.events.ListCreated
+import zettai.events.ListPutOnHold
+import zettai.events.ListReleased
+import zettai.events.ToDoListEvent
 
 data class ItemProjectionRow(val item: ToDoItem, val listId: EntityId)
 

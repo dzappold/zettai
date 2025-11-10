@@ -1,9 +1,9 @@
-package events
+package zettai.events
 
-import ListName
-import User
-import commands.EntityId
-import commands.ToDoListId
+import zettai.ListName
+import zettai.User
+import zettai.commands.EntityId
+import zettai.commands.ToDoListId
 import java.util.concurrent.atomic.AtomicReference
 
 typealias EventStreamer<E> = (EntityId) -> List<E>?

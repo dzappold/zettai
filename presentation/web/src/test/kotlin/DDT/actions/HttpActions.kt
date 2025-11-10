@@ -3,17 +3,11 @@ package DDT.actions
 import DDT.actors.ToDoListOwner
 import DDT.actors.expectSuccess
 import DDT.prepareZettaiForTests
-import ListName
-import ToDoItem
-import ToDoList
-import User
-import ZettaiOutcome
 import com.ubertob.pesticide.core.DdtProtocol
 import com.ubertob.pesticide.core.DomainSetUp
 import com.ubertob.pesticide.core.Http
 import com.ubertob.pesticide.core.NotReady
 import com.ubertob.pesticide.core.Ready
-import fp.asSuccess
 import org.http4k.client.OkHttp
 import org.http4k.core.Method
 import org.http4k.core.Method.GET
@@ -30,9 +24,15 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
-import ui.HtmlPage
-import ui.toIsoLocalDate
-import ui.toStatus
+import zettai.ListName
+import zettai.ToDoItem
+import zettai.ToDoList
+import zettai.User
+import zettai.ZettaiOutcome
+import zettai.fp.asSuccess
+import zettai.ui.HtmlPage
+import zettai.ui.toIsoLocalDate
+import zettai.ui.toStatus
 import java.time.Duration
 
 data class HttpActions(val env: String = "local") : ZettaiActions {

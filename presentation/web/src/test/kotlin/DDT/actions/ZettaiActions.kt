@@ -1,14 +1,14 @@
 package DDT.actions
 
 import DDT.actors.ToDoListOwner
-import ListName
-import ToDoItem
-import ToDoList
-import User
-import ZettaiOutcome
 import com.ubertob.pesticide.core.DdtActions
 import com.ubertob.pesticide.core.DdtProtocol
 import com.ubertob.pesticide.core.DomainDrivenTest
+import zettai.ListName
+import zettai.ToDoItem
+import zettai.ToDoList
+import zettai.User
+import zettai.ZettaiOutcome
 
 interface ZettaiActions : DdtActions<DdtProtocol> {
     fun ToDoListOwner.`starts with a list`(listName: String, items: List<String>)

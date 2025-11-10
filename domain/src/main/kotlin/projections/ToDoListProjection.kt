@@ -1,18 +1,18 @@
-package projections
+package zettai.projections
 
-import ListName
-import ToDoList
-import User
-import commands.EntityId
-import commands.ToDoListId
-import events.ItemAdded
-import events.ItemModified
-import events.ItemRemoved
-import events.ListClosed
-import events.ListCreated
-import events.ListPutOnHold
-import events.ListReleased
-import events.ToDoListEvent
+import zettai.ListName
+import zettai.ToDoList
+import zettai.User
+import zettai.commands.EntityId
+import zettai.commands.ToDoListId
+import zettai.events.ItemAdded
+import zettai.events.ItemModified
+import zettai.events.ItemRemoved
+import zettai.events.ListClosed
+import zettai.events.ListCreated
+import zettai.events.ListPutOnHold
+import zettai.events.ListReleased
+import zettai.events.ToDoListEvent
 
 class ToDoListProjection(eventFetcher: FetchStoredEvents<ToDoListEvent>) :
     InMemoryProjection<ToDoListProjectionRow, ToDoListEvent> by ConcurrentMapProjection(
