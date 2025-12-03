@@ -1,6 +1,6 @@
 [versions]
 ben-manes-version = "0.53.0"
-dependency-analysis-version = "3.4.1"
+dependency-analysis-version = "3.5.1"
 dependency-check-version = "12.1.9"
 dependency-license-report-version = "3.0.1"
 detekt-version = "1.23.8"
