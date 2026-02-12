@@ -16,7 +16,7 @@ kotlin-version = "2.3.0"
 mockk-version = "1.14.9"
 pesticide-version = "1.6.6"
 pitest = "1.15.0"
-postgresql-version = "42.7.9"
+postgresql-version = "42.7.10"
 
 [libraries]
 detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt-version" }
