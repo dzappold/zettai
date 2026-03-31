@@ -97,7 +97,7 @@ tasks {
         compilerOptions {
             freeCompilerArgs.set(
                 listOf(
-                    "-Xcontext-receivers",
+                    "-Xcontext-parameters",
                     "-Xconsistent-data-class-copy-visibility",
                     "-Xjsr305=strict"
                 )
